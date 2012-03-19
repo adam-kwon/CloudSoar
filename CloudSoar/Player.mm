@@ -48,10 +48,8 @@
 
 - (void) jump {
     self.state = kPlayerStateNone;
-//    if (body->GetLinearVelocity().y < 0) {
-//        body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, 0));
-//
-//    }
+    
+    // Reset the vertical velocity. If not, forces will pile on top each other.
     body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, 0));
 
     body->ApplyLinearImpulse(b2Vec2(0, body->GetMass()*20), body->GetPosition());    
@@ -64,7 +62,8 @@
 
     body->SetActive(NO);
 
-    // If going out of view (left or right), make it appear from opposite side
+    // If going out of view (left or right), make it appear from the opposite side.
+    // The entire object must be out of view before reappearing from the opposite side.
     if (self.position.x - halfSize > screenSize.width) {
         body->SetTransform(b2Vec2((halfSize+2)/PTM_RATIO, body->GetPosition().y), 0);
     
@@ -72,8 +71,10 @@
         body->SetTransform(b2Vec2((screenSize.width-(halfSize+2))/PTM_RATIO, body->GetPosition().y), 0);
     }
 
-//    body->ApplyForce(b2Vec2(accelX*50, 0.f), body->GetPosition());
-    
+    // Applying physics force based on acceleromter value wasn't very responsive
+    // body->ApplyForce(b2Vec2(accelX*50, 0.f), body->GetPosition());
+
+    // Manually move the physics object based on the acceleromter value
     b2Vec2 pos = body->GetPosition();
     body->SetTransform(b2Vec2(pos.x + accelX, pos.y), 0);
     
@@ -86,7 +87,7 @@
 
     self.position = ccp(body->GetPosition().x * PTM_RATIO, body->GetPosition().y * PTM_RATIO);
     self.rotation = -1 * CC_RADIANS_TO_DEGREES(body->GetAngle());
-
+]
 }
 
 @end

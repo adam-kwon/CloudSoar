@@ -10,6 +10,8 @@
 #import "Constants.h"
 #import "GameObject.h"
 
+#define GRAVITY -30.f
+
 @implementation PhysicsWorld
 
 const float32 FIXED_TIMESTEP = 1.0f / 60.0f;
@@ -79,7 +81,7 @@ static PhysicsWorld* instanceOfWorld;
 #endif
 
 - (void) setupPhysicsWorld {
-    b2Vec2 gravity = b2Vec2(0.0f, -30.f);
+    b2Vec2 gravity = b2Vec2(0.0f, GRAVITY);
     bool doSleep = true;
     world = new b2World(gravity, doSleep);    
 
