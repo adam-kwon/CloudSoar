@@ -15,6 +15,7 @@
 		3940D9BA15178C1E00B13AAF /* energy.caf in Resources */ = {isa = PBXBuildFile; fileRef = 3940D9B815178C1E00B13AAF /* energy.caf */; };
 		3940D9BB15178C1E00B13AAF /* food.png in Resources */ = {isa = PBXBuildFile; fileRef = 3940D9B915178C1E00B13AAF /* food.png */; };
 		3940D9BF15178CFE00B13AAF /* GameplayLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3940D9BE15178CFE00B13AAF /* GameplayLayer.mm */; };
+		3940D9CE1517A95800B13AAF /* Rocket.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3940D9CD1517A95800B13AAF /* Rocket.mm */; };
 		39486B0F1516E2260076D9CF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39486B0E1516E2260076D9CF /* QuartzCore.framework */; };
 		39486B111516E2260076D9CF /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39486B101516E2260076D9CF /* OpenGLES.framework */; };
 		39486B131516E2260076D9CF /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39486B121516E2260076D9CF /* OpenAL.framework */; };
@@ -186,6 +187,8 @@
 		3940D9BC15178CA000B13AAF /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		3940D9BD15178CFE00B13AAF /* GameplayLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameplayLayer.h; sourceTree = "<group>"; };
 		3940D9BE15178CFE00B13AAF /* GameplayLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameplayLayer.mm; sourceTree = "<group>"; };
+		3940D9CC1517A95800B13AAF /* Rocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rocket.h; sourceTree = "<group>"; };
+		3940D9CD1517A95800B13AAF /* Rocket.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Rocket.mm; sourceTree = "<group>"; };
 		39486B0A1516E2260076D9CF /* CloudSoar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudSoar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		39486B0E1516E2260076D9CF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		39486B101516E2260076D9CF /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -538,6 +541,8 @@
 				3940D9B215178BEE00B13AAF /* Player.mm */,
 				3940D9B315178BEE00B13AAF /* Energy.h */,
 				3940D9B415178BEE00B13AAF /* Energy.mm */,
+				3940D9CC1517A95800B13AAF /* Rocket.h */,
+				3940D9CD1517A95800B13AAF /* Rocket.mm */,
 			);
 			name = "Game Objects";
 			sourceTree = "<group>";
@@ -1268,6 +1273,7 @@
 				3940D9B615178BEE00B13AAF /* Player.mm in Sources */,
 				3940D9B715178BEE00B13AAF /* Energy.mm in Sources */,
 				3940D9BF15178CFE00B13AAF /* GameplayLayer.mm in Sources */,
+				3940D9CE1517A95800B13AAF /* Rocket.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

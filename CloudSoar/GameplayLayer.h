@@ -24,6 +24,12 @@
     
     float           accelX;
     Player          *player;
+    
+    float           _zFactor;
+    float           _oldScale;
+    float           _newScale;
+    float           _zRate;
+    float           _dScale;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child

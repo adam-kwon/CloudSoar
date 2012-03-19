@@ -11,12 +11,14 @@
 
 @implementation Player
 @synthesize state;
+@synthesize powerUpState;
 
 - (id) init {
     self = [super init];
     if (self) {
         gameObjectType = kGameObjectPlayer;
         state = kPlayerStateNone;
+        powerUpState = kPowerUpStateNone;
         screenSize = [[CCDirector sharedDirector] winSize];
     }
     return self;
@@ -47,12 +49,33 @@
 }
 
 - (void) jump {
-    self.state = kPlayerStateNone;
-    
-    // Reset the vertical velocity. If not, forces will pile on top each other.
-    body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, 0));
+    // Do jump if not in rocket state
+    if (state != kPlayerStateGotRocket) {
+        self.state = kPlayerStateNone;
+        
+        // Reset the vertical velocity. If not, forces will pile on top each other.
+        body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, 0));
 
-    body->ApplyLinearImpulse(b2Vec2(0, body->GetMass()*20), body->GetPosition());    
+        body->ApplyLinearImpulse(b2Vec2(0, body->GetMass()*20), body->GetPosition());    
+    }
+}
+
+- (void) turnOffRocket {
+    [self unschedule:@selector(turnOffRocket)];
+    powerUpState = kPowerUpStateNone;
+}
+
+- (void) rocket {
+    if (powerUpState == kPowerUpStateReceived) {
+        state = kPlayerStateNone;
+        powerUpState = kPowerUpStateInEffect;
+        [self schedule:@selector(turnOffRocket) interval:5.f];
+
+        // Reset the vertical velocity. If not, forces will pile on top each other.
+        body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, 0));
+        
+        body->ApplyLinearImpulse(b2Vec2(0, body->GetMass()*100), body->GetPosition());    
+    }
 }
 
 
@@ -80,14 +103,19 @@
     
     body->SetActive(YES);
 
-    if (state == kPlayerStateGotEnergy) {
-//        [[AudioEngine sharedEngine] playEffect:@"energy.caf"];
-        [self jump];
+    switch (state) {
+        case kPlayerStateGotEnergy:
+            [self jump];
+            break;
+        case kPlayerStateGotRocket:
+            [self rocket];
+            break;
+        default:
+            break;
     }
 
     self.position = ccp(body->GetPosition().x * PTM_RATIO, body->GetPosition().y * PTM_RATIO);
     self.rotation = -1 * CC_RADIANS_TO_DEGREES(body->GetAngle());
-]
 }
 
 @end

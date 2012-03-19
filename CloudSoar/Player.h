@@ -11,16 +11,27 @@
 
 typedef enum {
     kPlayerStateNone,
-    kPlayerStateGotEnergy
+    kPlayerStateGotEnergy,
+    kPlayerStateGotRocket
 } PlayerState;
+
+typedef enum {
+    kPowerUpStateNone,
+    kPowerUpStateReceived,
+    kPowerUpStateInEffect,
+    kPowerUpStateDone
+} PowerUpState;
 
 @interface Player : SpriteObject {
     CGSize screenSize;
     PlayerState state;
+    PowerUpState powerUpState;
 }
 
+- (void) rocket;
 - (void) jump;
 - (void) updateObject:(ccTime)dt withAccelX:(float)accelX;
 
 @property (nonatomic, readwrite, assign) PlayerState state;
+@property (nonatomic, readwrite, assign) PowerUpState powerUpState;
 @end

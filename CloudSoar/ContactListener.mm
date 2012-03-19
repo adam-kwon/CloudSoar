@@ -13,6 +13,7 @@
 
 #define IS_PLAYER(x,y)              ([x gameObjectType] == kGameObjectPlayer || [y gameObjectType] == kGameObjectPlayer)
 #define IS_ENERGY(x,y)              ([x gameObjectType] == kGameObjectEnergy || [y gameObjectType] == kGameObjectEnergy)
+#define IS_ROCKET(x,y)              ([x gameObjectType] == kGameObjectRocket || [y gameObjectType] == kGameObjectRocket)
 
 #define GAMEOBJECT_OF_TYPE(class, type, o1, o2)    (class*)([o1 gameObjectType] == type ? o1 : o2)
 
@@ -32,13 +33,20 @@ void ContactListener::BeginContact(b2Contact *contact) {
             Player *player = GAMEOBJECT_OF_TYPE(Player, kGameObjectPlayer, o1, o2);
             player.state = kPlayerStateGotEnergy;
         }
+        else if (IS_ROCKET(o1, o2)) {
+            Player *player = GAMEOBJECT_OF_TYPE(Player, kGameObjectPlayer, o1, o2);
+            player.state = kPlayerStateGotRocket;
+            if (player.powerUpState != kPowerUpStateInEffect) {
+                player.powerUpState = kPowerUpStateReceived;
+            }
+        }
     }
 }
 
 // EndContact is called when the contact end OR when the body is destroyed.
 void ContactListener::EndContact(b2Contact *contact) {    
-	CCNode<GameObject> *o1 = (CCNode<GameObject>*)contact->GetFixtureA()->GetBody()->GetUserData();
-	CCNode<GameObject> *o2 = (CCNode<GameObject>*)contact->GetFixtureB()->GetBody()->GetUserData();    
+//	CCNode<GameObject> *o1 = (CCNode<GameObject>*)contact->GetFixtureA()->GetBody()->GetUserData();
+//	CCNode<GameObject> *o2 = (CCNode<GameObject>*)contact->GetFixtureB()->GetBody()->GetUserData();    
 }
 
 void ContactListener::PreSolve(b2Contact *contact, const b2Manifold *oldManifold) {

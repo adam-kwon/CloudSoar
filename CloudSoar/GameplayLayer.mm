@@ -12,7 +12,7 @@
 #import "Constants.h"
 #import "Player.h"
 #import "Energy.h"
-
+#import "Rocket.h"
 
 // enums that will be used as tags
 enum {
@@ -96,7 +96,7 @@ enum {
         [self addChild:player];
 
         for (int i = 0; i < 200; i++) {
-            Energy *energy = [Energy spriteWithFile:@"food.png"];
+            Rocket *energy = [Rocket spriteWithFile:@"food.png"];
             energy.position = ccp(arc4random() % 320,  80*i);
             [energy createPhysicsObject:world];
             [self addChild:energy z:-1];
@@ -145,6 +145,44 @@ enum {
 
     [player updateObject:dt withAccelX:accelX];
 
+    float velocity = [player body]->GetLinearVelocity().y / (4);
+    
+    // Zoom effect
+    _zFactor = (ZOOM_OUT_FACTOR) * (velocity);
+    _oldScale = self.scale;
+    
+    // _newScale can become negative. There is no such thing as negative scale.
+    // Cocos2d will take the absolute value of scale. So prohibit from becoming too small.
+    _newScale = MAX(0.2, ZOOM_FACTOR - _zFactor);
+    
+    
+    _dScale = _oldScale - _newScale;
+    _zRate = fabs(_dScale) / dt;        
+    
+    // hit max zoom rate, throttle the zooming rate
+    if (_zRate > ZOOM_RATE) {
+        if (_dScale >= 0) {
+            // If zooming out
+            _newScale = _oldScale - ZOOM_RATE * dt;
+        } else { 
+            // If zooming in
+            _newScale = _oldScale + ZOOM_RATE * dt;
+        }
+    }
+    
+    if (_newScale < 1.0) {
+        self.scale = _newScale;
+    }
+        
+//        if (_newScale > g_rules.max_zoom_out && _newScale <= MAX_ZOOM_IN) {
+//            // Synthesized version of scale is set to 'assign', so it doesn't check
+//            // if new value is same as old value. So check it explicitly here.
+//            if (_newScale != self.scale) {
+//                self.scale = _newScale;                
+//                _mgs = (MainGameScene*)[self parent];
+//                [[ParallaxBackgroundLayer sharedLayer] setZoom:_newScale];
+//            }
+//        }
     //Iterate over the bodies in the physics world
 //    b2Body *_node = world->GetBodyList();
 //    while (_node) {
@@ -166,7 +204,8 @@ enum {
     
     
     if (player.position.y > 240) {
-        self.position = ccp(self.position.x, -player.position.y + 240);
+        // When player's position is above half screen height, start scrolling
+        self.position = ccp(self.position.x, -player.position.y * self.scale + (240*self.scale));
     } else {
         self.position = ccp(self.position.x, 0);        
     }
