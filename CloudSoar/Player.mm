@@ -61,21 +61,23 @@
 - (void) updateObject:(ccTime)dt withAccelX:(float)accelX {
     
     float halfSize = [self boundingBox].size.width/2;
-    
+
+    body->SetActive(NO);
+
     // If going out of view (left or right), make it appear from opposite side
-    if (self.position.x + halfSize > screenSize.width) {
-        body->SetActive(NO);
+    if (self.position.x - halfSize > screenSize.width) {
         body->SetTransform(b2Vec2((halfSize+2)/PTM_RATIO, body->GetPosition().y), 0);
-        body->SetActive(YES);
     
-    } else if (self.position.x - halfSize < 0) {
-        body->SetActive(NO);
+    } else if (self.position.x + halfSize < 0) {
         body->SetTransform(b2Vec2((screenSize.width-(halfSize+2))/PTM_RATIO, body->GetPosition().y), 0);
-        body->SetActive(YES);
     }
 
-
-    body->ApplyForce(b2Vec2(accelX*50, 0.f), body->GetPosition());
+//    body->ApplyForce(b2Vec2(accelX*50, 0.f), body->GetPosition());
+    
+    b2Vec2 pos = body->GetPosition();
+    body->SetTransform(b2Vec2(pos.x + accelX, pos.y), 0);
+    
+    body->SetActive(YES);
 
     if (state == kPlayerStateGotEnergy) {
 //        [[AudioEngine sharedEngine] playEffect:@"energy.caf"];

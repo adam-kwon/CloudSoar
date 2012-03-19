@@ -194,7 +194,7 @@ enum {
 	static float prevX=0, prevY=0;
 	
 	//#define kFilterFactor 0.05f
-#define kFilterFactor 1.0f	// don't use filter. the code is here just as an example
+#define kFilterFactor 0.1f	// don't use filter. the code is here just as an example
 	
     //	float accelX = (float) acceleration.x * kFilterFactor + (1- kFilterFactor)*prevX;
     //	float accelY = (float) acceleration.y * kFilterFactor + (1- kFilterFactor)*prevY;
@@ -208,7 +208,9 @@ enum {
     //	
     //	world->SetGravity( gravity );
     
-    accelX = acceleration.x;
+//    accelX = acceleration.x;
+    
+    accelX = (float) acceleration.x * kFilterFactor + (1 - kFilterFactor) * accelX;
     
     //    float sensitivity = 10;
     //    
