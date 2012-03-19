@@ -1,9 +1,9 @@
 //
 //  GameConfig.h
-//  CloudSoar
+//  cloudjump
 //
-//  Created by Min Kwon on 3/18/12.
-//  Copyright __MyCompanyName__ 2012. All rights reserved.
+//  Created by Min Kwon on 3/9/12.
+//  Copyright GAMEPEONS, LLC 2012. All rights reserved.
 //
 
 #ifndef __GAME_CONFIG_H
@@ -27,7 +27,7 @@
 // TIP:
 // To improve the performance, you should set this value to "kGameAutorotationNone" or "kGameAutorotationCCDirector"
 #if defined(__ARM_NEON__) || TARGET_IPHONE_SIMULATOR
-#define GAME_AUTOROTATION kGameAutorotationUIViewController
+#define GAME_AUTOROTATION kGameAutorotationNone
 
 // ARMv6 (1st and 2nd generation devices): Don't rotate. It is very expensive
 #elif __arm__

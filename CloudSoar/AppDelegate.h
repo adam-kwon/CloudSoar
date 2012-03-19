@@ -1,9 +1,9 @@
 //
 //  AppDelegate.h
-//  CloudSoar
+//  cloudjump
 //
-//  Created by Min Kwon on 3/18/12.
-//  Copyright __MyCompanyName__ 2012. All rights reserved.
+//  Created by Min Kwon on 3/9/12.
+//  Copyright GAMEPEONS, LLC 2012. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

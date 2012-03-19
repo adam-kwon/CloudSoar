@@ -1,17 +1,18 @@
 //
 //  AppDelegate.m
-//  CloudSoar
+//  cloudjump
 //
-//  Created by Min Kwon on 3/18/12.
-//  Copyright __MyCompanyName__ 2012. All rights reserved.
+//  Created by Min Kwon on 3/9/12.
+//  Copyright GAMEPEONS, LLC 2012. All rights reserved.
 //
 
 #import "cocos2d.h"
 
 #import "AppDelegate.h"
 #import "GameConfig.h"
-#import "HelloWorldLayer.h"
+#import "GameplayLayer.h"
 #import "RootViewController.h"
+//#import "AudioEngine.h"
 
 @implementation AppDelegate
 
@@ -71,8 +72,8 @@
 	[director setOpenGLView:glView];
 	
 //	// Enables High Res mode (Retina Display) on iPhone 4 and maintains low res on all other devices
-//	if( ! [director enableRetinaDisplay:YES] )
-//		CCLOG(@"Retina Display Not supported");
+	if( ! [director enableRetinaDisplay:YES] )
+		CCLOG(@"Retina Display Not supported");
 	
 	//
 	// VERY IMPORTANT:
@@ -83,12 +84,14 @@
 	// By default, this template only supports Landscape orientations.
 	// Edit the RootViewController.m file to edit the supported orientations.
 	//
-#if GAME_AUTOROTATION == kGameAutorotationUIViewController
-	[director setDeviceOrientation:kCCDeviceOrientationPortrait];
-#else
-	[director setDeviceOrientation:kCCDeviceOrientationLandscapeLeft];
-#endif
-	
+//#if GAME_AUTOROTATION == kGameAutorotationUIViewController
+//	[director setDeviceOrientation:kCCDeviceOrientationPortrait];
+//#else
+//	[director setDeviceOrientation:kCCDeviceOrientationLandscapeLeft];
+//#endif
+
+    [director setDeviceOrientation:kCCDeviceOrientationPortrait];
+
 	[director setAnimationInterval:1.0/60];
 	[director setDisplayFPS:YES];
 	
@@ -110,8 +113,10 @@
 	// Removes the startup flicker
 	[self removeStartupFlicker];
 	
+//    [[AudioEngine sharedEngine] preloadEffect:@"energy.caf"];
+    
 	// Run the intro Scene
-	[[CCDirector sharedDirector] runWithScene: [HelloWorldLayer scene]];
+	[[CCDirector sharedDirector] runWithScene: [GameplayLayer scene]];
 }
 
 
