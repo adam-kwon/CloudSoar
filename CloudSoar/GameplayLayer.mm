@@ -73,7 +73,7 @@ enum {
 		b2PolygonShape groundBox;		
 		
 		// bottom
-		groundBox.SetAsEdge(b2Vec2(0,0), b2Vec2(screenSize.width/PTM_RATIO,0));
+		groundBox.SetAsEdge(b2Vec2(-20,0), b2Vec2(screenSize.width*6/PTM_RATIO,0));
 		groundBody->CreateFixture(&groundBox,0);
 		
 		// top
@@ -96,10 +96,17 @@ enum {
         [self addChild:player];
 
         for (int i = 0; i < 200; i++) {
-            Rocket *energy = [Rocket spriteWithFile:@"food.png"];
-            energy.position = ccp(arc4random() % 320,  80*i);
-            [energy createPhysicsObject:world];
-            [self addChild:energy z:-1];
+            if (CCRANDOM_0_1() <= 0.8) {
+                Energy  *energy = [Energy spriteWithFile:@"food.png"];
+                energy.position = ccp(arc4random() % 320,  80*i);
+                [energy createPhysicsObject:world];
+                [self addChild:energy z:-1];
+            } else {
+                Rocket  *energy = [Rocket spriteWithFile:@"food2x.png"];
+                energy.position = ccp(arc4random() % 320,  80*i);
+                [energy createPhysicsObject:world];
+                [self addChild:energy z:-1];                
+            }
         }
         
 		//CCSpriteBatchNode *batch = [CCSpriteBatchNode batchNodeWithFile:@"blocks.png" capacity:150];
@@ -132,6 +139,15 @@ enum {
 
 }
 
+- (void) rocketZoomOut {
+    CCLOG(@"Rocket Zoom Out");
+    id zoomOutAction = [CCScaleTo actionWithDuration:3.0 scale:0.5];
+    id zoomInAction = [CCScaleTo actionWithDuration:3.0 scale:1.0];
+    id sequence = [CCSequence actions:zoomOutAction, zoomInAction, nil];
+//    [self runAction:sequence];
+    
+    [self runAction:zoomOutAction];  
+}
 
 
 -(void) update:(ccTime) dt
@@ -143,37 +159,42 @@ enum {
     
     [physicsWorld step:dt];
 
-    [player updateObject:dt withAccelX:accelX];
 
-    float velocity = [player body]->GetLinearVelocity().y / (4);
-    
-    // Zoom effect
-    _zFactor = (ZOOM_OUT_FACTOR) * (velocity);
-    _oldScale = self.scale;
-    
-    // _newScale can become negative. There is no such thing as negative scale.
-    // Cocos2d will take the absolute value of scale. So prohibit from becoming too small.
-    _newScale = MAX(0.2, ZOOM_FACTOR - _zFactor);
-    
-    
-    _dScale = _oldScale - _newScale;
-    _zRate = fabs(_dScale) / dt;        
-    
-    // hit max zoom rate, throttle the zooming rate
-    if (_zRate > ZOOM_RATE) {
-        if (_dScale >= 0) {
-            // If zooming out
-            _newScale = _oldScale - ZOOM_RATE * dt;
-        } else { 
-            // If zooming in
-            _newScale = _oldScale + ZOOM_RATE * dt;
+    if (player.powerUpState == kPowerUpStateInEffect 
+        || (player.powerUpState == kPowerUpStateNone && self.scale < 1.0)) {
+        float velocity = [player body]->GetLinearVelocity().y / (20);
+        
+        // Zoom effect
+        _zFactor = (ZOOM_OUT_FACTOR) * (velocity);
+        _oldScale = self.scale;
+        
+        // _newScale can become negative. There is no such thing as negative scale.
+        // Cocos2d will take the absolute value of scale. So prohibit from becoming too small.
+        _newScale = MAX(0.2, ZOOM_FACTOR - _zFactor);
+        
+        
+        _dScale = _oldScale - _newScale;
+        _zRate = fabs(_dScale) / dt;        
+        
+        // hit max zoom rate, throttle the zooming rate
+        if (_zRate > ZOOM_RATE) {
+            if (_dScale >= 0) {
+                // If zooming out
+                _newScale = _oldScale - ZOOM_RATE * dt;
+            } else { 
+                // If zooming in
+                _newScale = _oldScale + ZOOM_RATE * dt;
+            }
+        }
+        
+        if (_newScale < 1.0) {
+            self.scale = _newScale;
         }
     }
-    
-    if (_newScale < 1.0) {
-        self.scale = _newScale;
-    }
-        
+
+
+    [player updateObject:dt withAccelX:accelX gameScale:self.scale];
+
 //        if (_newScale > g_rules.max_zoom_out && _newScale <= MAX_ZOOM_IN) {
 //            // Synthesized version of scale is set to 'assign', so it doesn't check
 //            // if new value is same as old value. So check it explicitly here.

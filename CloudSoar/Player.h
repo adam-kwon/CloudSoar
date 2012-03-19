@@ -30,7 +30,7 @@ typedef enum {
 
 - (void) rocket;
 - (void) jump;
-- (void) updateObject:(ccTime)dt withAccelX:(float)accelX;
+- (void) updateObject:(ccTime)dt withAccelX:(float)accelX gameScale:(float)gameScale;
 
 @property (nonatomic, readwrite, assign) PlayerState state;
 @property (nonatomic, readwrite, assign) PowerUpState powerUpState;

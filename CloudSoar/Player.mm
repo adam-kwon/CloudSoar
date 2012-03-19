@@ -7,6 +7,7 @@
 //
 
 #import "Player.h"
+#import "GameplayLayer.h"
 //#import "AudioEngine.h"
 
 @implementation Player
@@ -50,7 +51,7 @@
 
 - (void) jump {
     // Do jump if not in rocket state
-    if (state != kPlayerStateGotRocket) {
+    if (powerUpState != kPowerUpStateInEffect) {
         self.state = kPlayerStateNone;
         
         // Reset the vertical velocity. If not, forces will pile on top each other.
@@ -69,29 +70,37 @@
     if (powerUpState == kPowerUpStateReceived) {
         state = kPlayerStateNone;
         powerUpState = kPowerUpStateInEffect;
-        [self schedule:@selector(turnOffRocket) interval:5.f];
+        //[self schedule:@selector(turnOffRocket) interval:5.f];
 
         // Reset the vertical velocity. If not, forces will pile on top each other.
         body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, 0));
         
         body->ApplyLinearImpulse(b2Vec2(0, body->GetMass()*100), body->GetPosition());    
+        
+//        GameplayLayer *gameplayLayer = (GameplayLayer*)[self parent];
+//        [gameplayLayer rocketZoomOut];
     }
 }
 
 
-- (void) updateObject:(ccTime)dt withAccelX:(float)accelX {
+- (void) updateObject:(ccTime)dt withAccelX:(float)accelX gameScale:(float)gameScale {
     
     float halfSize = [self boundingBox].size.width/2;
 
     body->SetActive(NO);
 
+    float scaledDiff = (screenSize.width/gameScale - screenSize.width)/2;
+    float leftEdge = -scaledDiff;
+    float rightEdge = screenSize.width + scaledDiff;
+    
+    CCLOG(@"right edfge= %f  self.x=%f self.x-halfSize=%f", rightEdge, self.position.x, self.position.x - halfSize);
     // If going out of view (left or right), make it appear from the opposite side.
     // The entire object must be out of view before reappearing from the opposite side.
-    if (self.position.x - halfSize > screenSize.width) {
-        body->SetTransform(b2Vec2((halfSize+2)/PTM_RATIO, body->GetPosition().y), 0);
+    if (self.position.x - halfSize > rightEdge) {
+        body->SetTransform(b2Vec2((leftEdge+halfSize+2)/PTM_RATIO, body->GetPosition().y), 0);
     
-    } else if (self.position.x + halfSize < 0) {
-        body->SetTransform(b2Vec2((screenSize.width-(halfSize+2))/PTM_RATIO, body->GetPosition().y), 0);
+    } else if (self.position.x + halfSize < leftEdge) {
+        body->SetTransform(b2Vec2((rightEdge-(halfSize+2))/PTM_RATIO, body->GetPosition().y), 0);
     }
 
     // Applying physics force based on acceleromter value wasn't very responsive
@@ -113,6 +122,14 @@
         default:
             break;
     }
+
+    //CCLOG(@"%f", body->GetLinearVelocity().y);
+    if (powerUpState == kPowerUpStateInEffect) {
+        float yVelocity = body->GetLinearVelocity().y;
+        if (yVelocity > 0 && yVelocity < 10) {
+            powerUpState = kPowerUpStateNone;
+        }
+    } 
 
     self.position = ccp(body->GetPosition().x * PTM_RATIO, body->GetPosition().y * PTM_RATIO);
     self.rotation = -1 * CC_RADIANS_TO_DEGREES(body->GetAngle());

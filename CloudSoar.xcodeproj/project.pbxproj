@@ -167,6 +167,7 @@
 		39486CE81516E22B0076D9CF /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39486CE71516E22B0076D9CF /* RootViewController.m */; };
 		39486CEE1516E22B0076D9CF /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = 39486CED1516E22B0076D9CF /* GLES-Render.mm */; };
 		39486CF11516E22B0076D9CF /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = 39486CF01516E22B0076D9CF /* blocks.png */; };
+		3996FF7F1517D23F00954CF1 /* food2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3996FF7E1517D23F00954CF1 /* food2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -498,6 +499,7 @@
 		39486CED1516E22B0076D9CF /* GLES-Render.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "GLES-Render.mm"; sourceTree = "<group>"; };
 		39486CEF1516E22B0076D9CF /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		39486CF01516E22B0076D9CF /* blocks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blocks.png; path = Resources/blocks.png; sourceTree = "<group>"; };
+		3996FF7E1517D23F00954CF1 /* food2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = food2x.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -604,6 +606,7 @@
 		39486B1F1516E2260076D9CF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3996FF7E1517D23F00954CF1 /* food2x.png */,
 				3940D9B815178C1E00B13AAF /* energy.caf */,
 				3940D9B915178C1E00B13AAF /* food.png */,
 				39486B201516E2260076D9CF /* Default.png */,
@@ -1124,6 +1127,7 @@
 				39486CF11516E22B0076D9CF /* blocks.png in Resources */,
 				3940D9BA15178C1E00B13AAF /* energy.caf in Resources */,
 				3940D9BB15178C1E00B13AAF /* food.png in Resources */,
+				3996FF7F1517D23F00954CF1 /* food2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
