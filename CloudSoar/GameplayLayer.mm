@@ -22,6 +22,10 @@ enum {
 };
 
 
+@interface GameplayLayer(Private) 
+- (void) generateEnergy;
+@end
+
 // HelloWorldLayer implementation
 @implementation GameplayLayer
 
@@ -53,9 +57,10 @@ enum {
 		// enable accelerometer
 		self.isAccelerometerEnabled = YES;
 		
-		CGSize screenSize = [CCDirector sharedDirector].winSize;
-		CCLOG(@"Screen width %0.2f screen height %0.2f",screenSize.width,screenSize.height);
+		screenSize = [CCDirector sharedDirector].winSize;
 		
+        lastEnergy = nil;
+        
 		[PhysicsWorld createInstance];
         physicsWorld = [PhysicsWorld sharedWorld];
         world = [physicsWorld getWorld];
@@ -95,19 +100,7 @@ enum {
         [player createPhysicsObject:world];
         [self addChild:player];
 
-        for (int i = 0; i < 200; i++) {
-            if (CCRANDOM_0_1() <= 0.8) {
-                Energy  *energy = [Energy spriteWithFile:@"food.png"];
-                energy.position = ccp(arc4random() % 320,  80*i);
-                [energy createPhysicsObject:world];
-                [self addChild:energy z:-1];
-            } else {
-                Rocket  *energy = [Rocket spriteWithFile:@"food2x.png"];
-                energy.position = ccp(arc4random() % 320,  80*i);
-                [energy createPhysicsObject:world];
-                [self addChild:energy z:-1];                
-            }
-        }
+        [self generateEnergy];
         
 		//CCSpriteBatchNode *batch = [CCSpriteBatchNode batchNodeWithFile:@"blocks.png" capacity:150];
 		//[self addChild:batch z:0 tag:kTagBatchNode];
@@ -149,6 +142,30 @@ enum {
     [self runAction:zoomOutAction];  
 }
 
+- (void) generateEnergy {
+    float startY = 0;
+    
+    if (lastEnergy != nil) {
+        startY = lastEnergy.position.y;
+    }
+    
+    for (int i = 0; i < 10; i++) {
+        SpriteObject *energy;
+        if (CCRANDOM_0_1() <= 0.9) {
+            energy = [Energy spriteWithFile:@"food.png"];
+            energy.position = ccp(arc4random() % 320,  startY + 80 * i);
+            [energy createPhysicsObject:world];
+            [self addChild:energy z:-1];
+        } else {
+            energy = [Rocket spriteWithFile:@"food2x.png"];
+            energy.position = ccp(arc4random() % 320,  startY + 80 * i);
+            [energy createPhysicsObject:world];
+            [self addChild:energy z:-1];                
+        }
+        lastEnergy = energy;
+    }
+    CCLOG(@"lastEnergy.y = %f", lastEnergy.position.y);
+}
 
 -(void) update:(ccTime) dt
 {
@@ -156,7 +173,7 @@ enum {
 	//of the simulation, however, we are using a variable time step here.
 	//You need to make an informed choice, the following URL is useful
 	//http://gafferongames.com/game-physics/fix-your-timestep/	
-    
+
     [physicsWorld step:dt];
 
 
@@ -194,6 +211,10 @@ enum {
 
 
     [player updateObject:dt withAccelX:accelX gameScale:self.scale];
+
+    if (fabsf(player.position.y - lastEnergy.position.y) < screenSize.height) {
+        [self generateEnergy];
+    }
 
 //        if (_newScale > g_rules.max_zoom_out && _newScale <= MAX_ZOOM_IN) {
 //            // Synthesized version of scale is set to 'assign', so it doesn't check
@@ -250,11 +271,8 @@ enum {
 }
 
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration
-{	
-	static float prevX=0, prevY=0;
-	
+{		
 	//#define kFilterFactor 0.05f
-#define kFilterFactor 0.1f	// don't use filter. the code is here just as an example
 	
     //	float accelX = (float) acceleration.x * kFilterFactor + (1- kFilterFactor)*prevX;
     //	float accelY = (float) acceleration.y * kFilterFactor + (1- kFilterFactor)*prevY;
@@ -270,7 +288,7 @@ enum {
     
 //    accelX = acceleration.x;
     
-    accelX = (float) acceleration.x * kFilterFactor + (1 - kFilterFactor) * accelX;
+    accelX = (float) acceleration.x * TILT_SENSITIVITY + (1 - TILT_SENSITIVITY) * accelX;
     
     //    float sensitivity = 10;
     //    

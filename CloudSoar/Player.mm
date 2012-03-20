@@ -61,10 +61,6 @@
     }
 }
 
-- (void) turnOffRocket {
-    [self unschedule:@selector(turnOffRocket)];
-    powerUpState = kPowerUpStateNone;
-}
 
 - (void) rocket {
     if (powerUpState == kPowerUpStateReceived) {
@@ -86,31 +82,33 @@
 - (void) updateObject:(ccTime)dt withAccelX:(float)accelX gameScale:(float)gameScale {
     
     float halfSize = [self boundingBox].size.width/2;
-
-    body->SetActive(NO);
-
+    
+    // Screen is scaled, so how much extra space on left and right of screen
     float scaledDiff = (screenSize.width/gameScale - screenSize.width)/2;
     float leftEdge = -scaledDiff;
     float rightEdge = screenSize.width + scaledDiff;
+
+    b2Vec2 pos = body->GetPosition();
     
-    CCLOG(@"right edfge= %f  self.x=%f self.x-halfSize=%f", rightEdge, self.position.x, self.position.x - halfSize);
+   // body->SetActive(NO);
+
     // If going out of view (left or right), make it appear from the opposite side.
     // The entire object must be out of view before reappearing from the opposite side.
     if (self.position.x - halfSize > rightEdge) {
-        body->SetTransform(b2Vec2((leftEdge+halfSize+2)/PTM_RATIO, body->GetPosition().y), 0);
+        body->SetTransform(b2Vec2((leftEdge+halfSize+2)/PTM_RATIO + accelX, body->GetPosition().y), 0);
     
     } else if (self.position.x + halfSize < leftEdge) {
-        body->SetTransform(b2Vec2((rightEdge-(halfSize+2))/PTM_RATIO, body->GetPosition().y), 0);
+        body->SetTransform(b2Vec2((rightEdge-(halfSize+2))/PTM_RATIO + accelX, body->GetPosition().y), 0);
+    } else {
+        // Manually move the physics object based on the acceleromter value
+        body->SetTransform(b2Vec2(pos.x + accelX, pos.y), 0);
     }
 
     // Applying physics force based on acceleromter value wasn't very responsive
     // body->ApplyForce(b2Vec2(accelX*50, 0.f), body->GetPosition());
 
-    // Manually move the physics object based on the acceleromter value
-    b2Vec2 pos = body->GetPosition();
-    body->SetTransform(b2Vec2(pos.x + accelX, pos.y), 0);
     
-    body->SetActive(YES);
+//    body->SetActive(YES);
 
     switch (state) {
         case kPlayerStateGotEnergy:

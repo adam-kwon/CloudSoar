@@ -14,16 +14,21 @@
 #import "PhysicsWorld.h"
 
 @class Player;
+@class SpriteObject;
 
 // HelloWorldLayer
 @interface GameplayLayer : CCLayer
 {
+    CGSize          screenSize;
+    
 	b2World         *world;
 	GLESDebugDraw   *m_debugDraw;
     PhysicsWorld    *physicsWorld;
     
     float           accelX;
     Player          *player;
+    
+    SpriteObject    *lastEnergy;
     
     float           _zFactor;
     float           _oldScale;
