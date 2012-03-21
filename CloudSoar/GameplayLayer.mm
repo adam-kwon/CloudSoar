@@ -155,10 +155,10 @@ static GameplayLayer *sharedInstance;
 }
 
 - (void) generateEnergy {
-    float startY = 0;
+    float startY = 80;
     
     if (lastEnergy != nil) {
-        startY = lastEnergy.position.y;
+        startY += lastEnergy.position.y;
     }
     
     for (int i = 0; i < 10; i++) {
