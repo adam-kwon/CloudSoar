@@ -47,7 +47,7 @@
 }
 
 - (void) destroy {
-    CCLOG(@"ENERGY DESTROY");
+    //CCLOG(@"ENERGY DESTROY");
     lifeState = kLifeStateDead;
     self.visible = NO;
     [self safeToDelete];

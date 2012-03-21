@@ -46,7 +46,7 @@
 
 
 - (void) destroy {
-    CCLOG(@"ROCKET DESTROY");
+    //CCLOG(@"ROCKET DESTROY");
     lifeState = kLifeStateDead;
     self.visible = NO;
     [self safeToDelete];

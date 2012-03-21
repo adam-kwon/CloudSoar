@@ -30,6 +30,7 @@ enum {
 @implementation GameplayLayer
 
 @synthesize player;
+@synthesize leadOut;
 
 static GameplayLayer *sharedInstance;
 
@@ -59,7 +60,6 @@ static GameplayLayer *sharedInstance;
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init])) {
-		sharedInstance = self;
         
 		// enable touches
 		self.isTouchEnabled = YES;
@@ -69,9 +69,12 @@ static GameplayLayer *sharedInstance;
 		
 		screenSize = [CCDirector sharedDirector].winSize;
 		
+        leadOut = screenSize.height/2;
+        
         toDeleteArray = [[NSMutableArray alloc] init];
         
         lastEnergy = nil;
+        sharedInstance = self;
         
 		[PhysicsWorld createInstance];
         physicsWorld = [PhysicsWorld sharedWorld];
@@ -119,6 +122,7 @@ static GameplayLayer *sharedInstance;
 		
 	
         [self scheduleUpdate];
+        
 	}
 	return self;
 }
@@ -155,14 +159,19 @@ static GameplayLayer *sharedInstance;
 }
 
 - (void) generateEnergy {
-    float startY = 80;
+    float startY = 50;
     
     if (lastEnergy != nil) {
         startY += lastEnergy.position.y;
     }
     
+    int col = arc4random() % 280 + 20;
     for (int i = 0; i < 10; i++) {
         SpriteObject *energy;
+//        energy = [Energy spriteWithFile:@"food.png"];
+//        energy.position = ccp(col, startY + 50 * i);
+//        [energy createPhysicsObject:world];
+//        [self addChild:energy];
         if (CCRANDOM_0_1() <= 0.9) {
             energy = [Energy spriteWithFile:@"food.png"];
             energy.position = ccp(arc4random() % 320,  startY + 80 * i);
@@ -259,16 +268,19 @@ static GameplayLayer *sharedInstance;
 		}
 	}
     
-    if (player.position.y > 240) {
+    
+    //CCLOG(@"leadout=%d offset=%d", leadOut, leadOutOffSet);
+    if (player.position.y > leadOut) {
         // When player's position is above half screen height, start scrolling
-        self.position = ccp(self.position.x, -player.position.y * self.scale + (240*self.scale));
+        self.position = ccp(self.position.x, -player.position.y * self.scale + (leadOut*self.scale));
     } else {
         self.position = ccp(self.position.x, 0);        
     }
 
     
+    
+    // Clean up. Do physics first then cocos objects    
     CCNode<GameObject, PhysicsObject> *node;
-    // Clean up. Do physics first then cocos objects
     for (int last = [toDeleteArray count]-1; last >= 0; last--) {
         node = (CCNode<GameObject, PhysicsObject>*)[toDeleteArray objectAtIndex:last];
         if ([node isSafeToDelete]) {

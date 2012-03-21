@@ -13,6 +13,7 @@
 #import "GLES-Render.h"
 #import "PhysicsWorld.h"
 
+
 @class GameplayLayer;
 @class Player;
 @class GameObject;
@@ -44,6 +45,7 @@
 
     b2Body                          *_curBodyNode;
     b2Body                          *_curBodyBackup;
+    int                             leadOut;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
@@ -54,5 +56,7 @@
 - (void) rocketZoomOut;
 
 @property (nonatomic, readonly) Player *player;
+@property (nonatomic, readwrite, assign) int leadOut;
+
 
 @end

@@ -19,6 +19,7 @@ typedef enum {
     kPowerUpStateNone,
     kPowerUpStateReceived,
     kPowerUpStateInEffect,
+    kPowerUpStateCoolDown,
     kPowerUpStateDone
 } PowerUpState;
 

@@ -53,11 +53,13 @@
     // Do jump if not in rocket state
     if (powerUpState != kPowerUpStateInEffect) {
         self.state = kPlayerStateNone;
-        
+//        [GameplayLayer sharedInstance].leadOutOffSet = screenSize.height/2;
+      
         // Reset the vertical velocity. If not, forces will pile on top each other.
         body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, 0));
 
         body->ApplyLinearImpulse(b2Vec2(0, body->GetMass()*20), body->GetPosition());    
+
     }
 }
 
@@ -72,9 +74,7 @@
         body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, 0));
         
         body->ApplyLinearImpulse(b2Vec2(0, body->GetMass()*100), body->GetPosition());    
-        
-//        GameplayLayer *gameplayLayer = (GameplayLayer*)[self parent];
-//        [gameplayLayer rocketZoomOut];
+                
     }
 }
 
@@ -121,16 +121,41 @@
             break;
     }
 
+    float yVelocity = body->GetLinearVelocity().y;
+
     //CCLOG(@"%f", body->GetLinearVelocity().y);
     if (powerUpState == kPowerUpStateInEffect) {
-        float yVelocity = body->GetLinearVelocity().y;
         if (yVelocity > 0 && yVelocity < 10) {
-            powerUpState = kPowerUpStateNone;
+            powerUpState = kPowerUpStateCoolDown;
         }
     } 
 
+   // CCLOG(@"yVelocity = %f", yVelocity);
+
+    CCLOG(@"leadout = %d", [GameplayLayer sharedInstance].leadOut);
+    if (yVelocity < -5 || powerUpState == kPowerUpStateCoolDown) {
+        [GameplayLayer sharedInstance].leadOut = [GameplayLayer sharedInstance].leadOut - 3;
+        if ([GameplayLayer sharedInstance].leadOut <= 160) {
+            [GameplayLayer sharedInstance].leadOut = 160;
+            powerUpState = kPowerUpStateNone;
+        }
+    } else if (yVelocity > 20) {
+        [GameplayLayer sharedInstance].leadOut = [GameplayLayer sharedInstance].leadOut + 5;
+        if ([GameplayLayer sharedInstance].leadOut >= 450) {
+            [GameplayLayer sharedInstance].leadOut = 450;
+        }
+    } else if (yVelocity > 10 && powerUpState != kPowerUpStateInEffect) {
+        [GameplayLayer sharedInstance].leadOut = [GameplayLayer sharedInstance].leadOut + 3;
+        if ([GameplayLayer sharedInstance].leadOut >= 280) {
+            [GameplayLayer sharedInstance].leadOut = 280;
+        }        
+    }
+    
+
     self.position = ccp(body->GetPosition().x * PTM_RATIO, body->GetPosition().y * PTM_RATIO);
     self.rotation = -1 * CC_RADIANS_TO_DEGREES(body->GetAngle());
+
+
 }
 
 @end
