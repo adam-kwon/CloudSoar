@@ -8,6 +8,8 @@
 
 #import "Rocket.h"
 #import "Constants.h"
+#import "GameplayLayer.h"
+#import "Player.h"
 
 @implementation Rocket
 
@@ -40,6 +42,33 @@
     //    fixtureDef.filter.maskBits = CATEGORY_RUNNER;
     //    fixtureDef.filter.groupIndex = 2;
 	body->CreateFixture(&fixtureDef);	
+}
+
+
+- (void) destroy {
+    CCLOG(@"ROCKET DESTROY");
+    lifeState = kLifeStateDead;
+    self.visible = NO;
+    [self safeToDelete];
+    [[GameplayLayer sharedInstance] addToDeleteList:self];
+}
+
+- (void) updateObject:(ccTime)dt {
+    if (lifeState == kLifeStateDead) {
+        return;
+    }
+    
+    Player *player = [GameplayLayer sharedInstance].player;
+    float scale = [GameplayLayer sharedInstance].scale;
+    
+    // Screen is scaled, so how much extra space on left and right of screen
+    //float scaledDiff = (screenSize.height/scale - screenSize.width)/2;
+    //float bottomEdge = -scaledDiff;
+    
+    
+    if (self.position.y < player.position.y - (screenSize.height/scale/2)) {
+        [self destroy];
+    }
 }
 
 

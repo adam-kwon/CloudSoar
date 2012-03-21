@@ -13,33 +13,46 @@
 #import "GLES-Render.h"
 #import "PhysicsWorld.h"
 
+@class GameplayLayer;
 @class Player;
+@class GameObject;
 @class SpriteObject;
 
 // HelloWorldLayer
 @interface GameplayLayer : CCLayer
 {
-    CGSize          screenSize;
+    CGSize                          screenSize;
     
-	b2World         *world;
-	GLESDebugDraw   *m_debugDraw;
-    PhysicsWorld    *physicsWorld;
+    NSMutableArray                  *toDeleteArray;
+
+	b2World                         *world;
+	GLESDebugDraw                   *m_debugDraw;
+    PhysicsWorld                    *physicsWorld;
     
-    float           accelX;
-    Player          *player;
     
-    SpriteObject    *lastEnergy;
+    float                           accelX;
+    Player                          *player;
     
-    float           _zFactor;
-    float           _oldScale;
-    float           _newScale;
-    float           _zRate;
-    float           _dScale;
+    SpriteObject                    *lastEnergy;
+    
+    float                           _zFactor;
+    float                           _oldScale;
+    float                           _newScale;
+    float                           _zRate;
+    float                           _dScale;
+    CCNode<GameObject>              *_gameObject;
+
+    b2Body                          *_curBodyNode;
+    b2Body                          *_curBodyBackup;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 + (CCScene *) scene;
++ (GameplayLayer*) sharedInstance;
 
+- (void) addToDeleteList:(CCNode<GameObject>*)node;
 - (void) rocketZoomOut;
+
+@property (nonatomic, readonly) Player *player;
 
 @end

@@ -11,7 +11,6 @@
 @implementation SpriteObject
 @synthesize gameObjectType;
 @synthesize body;
-@synthesize size;
 @synthesize lifeState;
 
 - (id) init {
@@ -21,6 +20,7 @@
         isSafeToDelete = NO;
         world = NULL;
 		body = NULL;
+        screenSize = [[CCDirector sharedDirector] winSize];
 	}
 	return self;
 }

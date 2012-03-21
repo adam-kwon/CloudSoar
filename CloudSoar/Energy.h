@@ -9,6 +9,5 @@
 #import "SpriteObject.h"
 
 @interface Energy : SpriteObject {
-    
 }
 @end

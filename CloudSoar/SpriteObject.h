@@ -20,7 +20,7 @@
 	b2World					*world;
 	b2Body					*body;
     BOOL                    isSafeToDelete;
-    CGSize                  size;
+    CGSize                  screenSize;
 }
 
 - (void) updateObject:(ccTime)dt;
@@ -28,7 +28,6 @@
 
 @property (nonatomic, readwrite, assign) LifeState lifeState;
 @property (nonatomic, readwrite, assign) GameObjectType gameObjectType;
-@property (nonatomic, readwrite, assign) b2Body *body;
-@property (nonatomic, readwrite, assign) CGSize size;
+@property (nonatomic, readonly) b2Body *body;
 
 @end

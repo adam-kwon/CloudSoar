@@ -29,6 +29,15 @@ enum {
 // HelloWorldLayer implementation
 @implementation GameplayLayer
 
+@synthesize player;
+
+static GameplayLayer *sharedInstance;
+
++(GameplayLayer*) sharedInstance {
+    NSAssert(sharedInstance != nil, @"GameplayLayer instance not initialized");
+    return sharedInstance;
+}
+
 +(CCScene *) scene
 {
 	// 'scene' is an autorelease object.
@@ -50,7 +59,8 @@ enum {
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init])) {
-		
+		sharedInstance = self;
+        
 		// enable touches
 		self.isTouchEnabled = YES;
 		
@@ -59,6 +69,8 @@ enum {
 		
 		screenSize = [CCDirector sharedDirector].winSize;
 		
+        toDeleteArray = [[NSMutableArray alloc] init];
+        
         lastEnergy = nil;
         
 		[PhysicsWorld createInstance];
@@ -164,7 +176,7 @@ enum {
         }
         lastEnergy = energy;
     }
-    CCLOG(@"lastEnergy.y = %f", lastEnergy.position.y);
+    //CCLOG(@"lastEnergy.y = %f", lastEnergy.position.y);
 }
 
 -(void) update:(ccTime) dt
@@ -225,25 +237,27 @@ enum {
 //                [[ParallaxBackgroundLayer sharedLayer] setZoom:_newScale];
 //            }
 //        }
+
     //Iterate over the bodies in the physics world
-//    b2Body *_node = world->GetBodyList();
-//    while (_node) {
-//        b2Body *_body = _node;
-//        _node = _node->GetNext();        
-//		CCNode<GameObject> *_gameObject = (CCNode<GameObject>*)_body->GetUserData();
-//		if (_gameObject != NULL) {
-//            //if ([_gameObject conformsToProtocol:@protocol(GameObject)]) {
-//            //    CCLOG(@"-------------------------------------------------------------------------------> %d", [_gameObject gameObjectType]);
-//            //}
-//            switch ([_gameObject gameObjectType]) {
-//                    [_gameObject updateObject:dt];
-//                    break;
-//                default:
-//                    break;
-//            }            
-//		}
-//	}	
-    
+    _curBodyNode = world->GetBodyList();
+    while (_curBodyNode) {
+        _curBodyBackup = _curBodyNode;
+        _curBodyNode = _curBodyNode->GetNext();
+		_gameObject = (CCNode<GameObject>*)_curBodyBackup->GetUserData();
+		if (_gameObject != NULL) {
+            //if ([_gameObject conformsToProtocol:@protocol(GameObject)]) {
+            //    CCLOG(@"-------------------------------------------------------------------------------> %d", [_gameObject gameObjectType]);
+            //}
+            switch ([_gameObject gameObjectType]) {
+                case kGameObjectEnergy:
+                case kGameObjectRocket:
+                    [_gameObject updateObject:dt];
+                    break;
+                default:
+                    break;
+            }            
+		}
+	}
     
     if (player.position.y > 240) {
         // When player's position is above half screen height, start scrolling
@@ -252,6 +266,17 @@ enum {
         self.position = ccp(self.position.x, 0);        
     }
 
+    
+    CCNode<GameObject, PhysicsObject> *node;
+    // Clean up. Do physics first then cocos objects
+    for (int last = [toDeleteArray count]-1; last >= 0; last--) {
+        node = (CCNode<GameObject, PhysicsObject>*)[toDeleteArray objectAtIndex:last];
+        if ([node isSafeToDelete]) {
+            [toDeleteArray removeObjectAtIndex:last];
+            [node destroyPhysicsObject];
+            [node removeFromParentAndCleanup:YES];
+        }
+    }
 }
 
 - (void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -301,6 +326,12 @@ enum {
     //    else if (accelX > 0.5) accelX = 0.25;
 }
 
+- (void) addToDeleteList:(CCNode<GameObject>*)node {
+    if (NO == [toDeleteArray containsObject:node]) {
+        [toDeleteArray addObject:node];
+    }
+}
+
 // on "dealloc" you need to release all your retained objects
 - (void) dealloc
 {
@@ -310,6 +341,11 @@ enum {
 	
 	delete m_debugDraw;
 
+    [toDeleteArray removeAllObjects];
+    [toDeleteArray release];
+    toDeleteArray = nil;
+
+    
 	// don't forget to call "super dealloc"
 	[super dealloc];
 }

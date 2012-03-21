@@ -23,7 +23,6 @@ typedef enum {
 } PowerUpState;
 
 @interface Player : SpriteObject {
-    CGSize screenSize;
     PlayerState state;
     PowerUpState powerUpState;
 }
