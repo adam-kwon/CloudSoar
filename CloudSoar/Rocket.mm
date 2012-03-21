@@ -58,18 +58,21 @@
         return;
     }
     
-    Player *player = [GameplayLayer sharedInstance].player;
-    float scale = [GameplayLayer sharedInstance].scale;
-    
-    // Screen is scaled, so how much extra space on left and right of screen
-    //float scaledDiff = (screenSize.height/scale - screenSize.width)/2;
-    //float bottomEdge = -scaledDiff;
-    
-    
-    if (self.position.y < player.position.y - (screenSize.height/scale/2)) {
+    if (gameObjectState == kGameObjectStateDestroy) {
         [self destroy];
-    }
-}
+    } else {
+        Player *player = [GameplayLayer sharedInstance].player;
+        float scale = [GameplayLayer sharedInstance].scale;
+        
+        // Screen is scaled, so how much extra space on left and right of screen
+        //float scaledDiff = (screenSize.height/scale - screenSize.width)/2;
+        //float bottomEdge = -scaledDiff;
+        
+        
+        if (self.position.y < player.position.y - (screenSize.height/(scale/2))) {
+            [self destroy];
+        }
+    }}
 
 
 @end

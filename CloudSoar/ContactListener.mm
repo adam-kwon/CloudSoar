@@ -10,6 +10,9 @@
 #import "Constants.h"
 #import "GamePlayLayer.h"
 #import "Player.h"
+#import "Energy.h"
+#import "Rocket.h"
+#import "SpriteObject.h"
 
 #define IS_PLAYER(x,y)              ([x gameObjectType] == kGameObjectPlayer || [y gameObjectType] == kGameObjectPlayer)
 #define IS_ENERGY(x,y)              ([x gameObjectType] == kGameObjectEnergy || [y gameObjectType] == kGameObjectEnergy)
@@ -32,12 +35,16 @@ void ContactListener::BeginContact(b2Contact *contact) {
         if (IS_ENERGY(o1, o2)) {
             Player *player = GAMEOBJECT_OF_TYPE(Player, kGameObjectPlayer, o1, o2);
             player.state = kPlayerStateGotEnergy;
+            SpriteObject *energy =  GAMEOBJECT_OF_TYPE(Energy, kGameObjectEnergy, o1, o2);
+            energy.gameObjectState = kGameObjectStateDestroy;
         }
         else if (IS_ROCKET(o1, o2)) {
             Player *player = GAMEOBJECT_OF_TYPE(Player, kGameObjectPlayer, o1, o2);
             player.state = kPlayerStateGotRocket;
             if (player.powerUpState != kPowerUpStateInEffect) {
                 player.powerUpState = kPowerUpStateReceived;
+                SpriteObject *energy =  GAMEOBJECT_OF_TYPE(Rocket, kGameObjectRocket, o1, o2);
+                energy.gameObjectState = kGameObjectStateDestroy;
             }
         }
     }

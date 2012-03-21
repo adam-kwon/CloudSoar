@@ -16,6 +16,7 @@
 
 @interface SpriteObject : CCSprite<PhysicsObject, GameObject> {    
 	GameObjectType			gameObjectType;
+    GameObjectState         gameObjectState;
     LifeState               lifeState;
 	b2World					*world;
 	b2Body					*body;
@@ -28,6 +29,7 @@
 
 @property (nonatomic, readwrite, assign) LifeState lifeState;
 @property (nonatomic, readwrite, assign) GameObjectType gameObjectType;
+@property (nonatomic, readwrite, assign) GameObjectState gameObjectState;
 @property (nonatomic, readonly) b2Body *body;
 
 @end

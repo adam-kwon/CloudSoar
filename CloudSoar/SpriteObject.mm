@@ -10,6 +10,7 @@
 
 @implementation SpriteObject
 @synthesize gameObjectType;
+@synthesize gameObjectState;
 @synthesize body;
 @synthesize lifeState;
 

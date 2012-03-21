@@ -41,4 +41,9 @@ typedef enum {
     kLifeStateDead
 } LifeState;
 
+typedef enum {
+    kGameObjectStateNone,
+    kGameObjectStateDestroy
+} GameObjectState;
+
 #endif
