@@ -46,7 +46,8 @@
 	fixtureDef.shape = &dynamicBox;	
 	fixtureDef.density = 1.0f;
 	fixtureDef.friction = 0.3f;
-	body->CreateFixture(&fixtureDef);    
+	fixture = body->CreateFixture(&fixtureDef);    
+    
 }
 
 - (void) jump {
@@ -61,6 +62,20 @@
             yVelocity = 0;
         }
         yVelocity /= 5.0f;
+
+        
+        self.scale += 0.01;
+        body->DestroyFixture(fixture);
+        b2PolygonShape dynamicBox;
+        dynamicBox.SetAsBox([self boundingBox].size.width/2/PTM_RATIO,[self boundingBox].size.height/2/PTM_RATIO);//These are mid points for our 1m box
+        
+        // Define the dynamic body fixture.
+        b2FixtureDef fixtureDef;
+        fixtureDef.shape = &dynamicBox;	
+        fixtureDef.density = 1.0f;
+        fixtureDef.friction = 0.3f;
+        fixture = body->CreateFixture(&fixtureDef);    
+        
         
         body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, yVelocity));
 

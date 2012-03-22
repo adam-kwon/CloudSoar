@@ -19,6 +19,7 @@
     GameObjectState         gameObjectState;
     LifeState               lifeState;
 	b2World					*world;
+    b2Fixture               *fixture;
 	b2Body					*body;
     BOOL                    isSafeToDelete;
     CGSize                  screenSize;
