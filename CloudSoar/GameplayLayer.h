@@ -34,7 +34,7 @@
     float                           accelX;
     Player                          *player;
     
-    SpriteObject                    *lastEnergy;
+    float                           lastEnergyHeight;
     
     float                           _zFactor;
     float                           _oldScale;
@@ -53,7 +53,6 @@
 + (GameplayLayer*) sharedInstance;
 
 - (void) addToDeleteList:(CCNode<GameObject>*)node;
-- (void) rocketZoomOut;
 
 @property (nonatomic, readonly) Player *player;
 @property (nonatomic, readwrite, assign) int leadOut;

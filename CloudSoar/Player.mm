@@ -73,7 +73,7 @@
         // Reset the vertical velocity. If not, forces will pile on top each other.
         body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, 0));
         
-        body->ApplyLinearImpulse(b2Vec2(0, body->GetMass()*100), body->GetPosition());    
+        body->ApplyLinearImpulse(b2Vec2(0, body->GetMass()*50), body->GetPosition());    
                 
     }
 }
@@ -132,7 +132,7 @@
 
    // CCLOG(@"yVelocity = %f", yVelocity);
 
-    CCLOG(@"leadout = %d", [GameplayLayer sharedInstance].leadOut);
+    //CCLOG(@"leadout = %d", [GameplayLayer sharedInstance].leadOut);
     if (yVelocity < -5 || powerUpState == kPowerUpStateCoolDown) {
         [GameplayLayer sharedInstance].leadOut = [GameplayLayer sharedInstance].leadOut - 3;
         if ([GameplayLayer sharedInstance].leadOut <= 160) {
