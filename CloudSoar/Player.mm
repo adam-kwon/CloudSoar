@@ -56,7 +56,13 @@
 //        [GameplayLayer sharedInstance].leadOutOffSet = screenSize.height/2;
       
         // Reset the vertical velocity. If not, forces will pile on top each other.
-        body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, 0));
+        float yVelocity = body->GetLinearVelocity().y;
+        if (yVelocity < 0) {
+            yVelocity = 0;
+        }
+        yVelocity /= 5.0f;
+        
+        body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, yVelocity));
 
         body->ApplyLinearImpulse(b2Vec2(0, body->GetMass()*20), body->GetPosition());    
 
@@ -70,8 +76,14 @@
         powerUpState = kPowerUpStateInEffect;
         //[self schedule:@selector(turnOffRocket) interval:5.f];
 
+        float yVelocity = body->GetLinearVelocity().y;
+        if (yVelocity < 0) {
+            yVelocity = 0;
+        }
+        yVelocity /= 5.0f;
+
         // Reset the vertical velocity. If not, forces will pile on top each other.
-        body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, 0));
+        body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, yVelocity));
         
         body->ApplyLinearImpulse(b2Vec2(0, body->GetMass()*50), body->GetPosition());    
                 
@@ -139,7 +151,7 @@
             [GameplayLayer sharedInstance].leadOut = 160;
             powerUpState = kPowerUpStateNone;
         }
-    } else if (yVelocity > 20) {
+    } else if (yVelocity > 20 && powerUpState == kPowerUpStateInEffect) {
         [GameplayLayer sharedInstance].leadOut = [GameplayLayer sharedInstance].leadOut + 5;
         if ([GameplayLayer sharedInstance].leadOut >= 450) {
             [GameplayLayer sharedInstance].leadOut = 450;

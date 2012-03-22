@@ -179,30 +179,33 @@ static GameplayLayer *sharedInstance;
 - (void) generateEnergyRandom {
     float startY = 60 + lastEnergyHeight;
     
+    int numRows = 5 + arc4random()%10;
     
-    for (int i = 0; i < 20; i++) {
+    int ySpace = 40+arc4random()%40;
+    
+    for (int i = 0; i < numRows; i++) {
         SpriteObject *energy;
         int chance = arc4random() % 100;
         if (chance <= 93) {
             energy = [Energy spriteWithFile:@"food.png"];
-            energy.position = ccp(arc4random() % 320,  startY + 40 * i);
+            energy.position = ccp(arc4random() % 320,  startY + ySpace * i);
             [energy createPhysicsObject:world];
             [self addChild:energy z:-1];
             [self setLastEnergyHeight:energy];
-            if (arc4random() % 100 < 30) {
-                int numRepeat = arc4random() % 5;
-                for (int j = 1; j <= numRepeat; j++) {
-                    SpriteObject *energy2;
-                    energy2 = [Energy spriteWithFile:@"food.png"];
-                    energy2.position = ccp(energy.position.x + [energy boundingBox].size.width * j + 10 + arc4random()%30,  startY + 40 * i + arc4random()%100);
-                    [energy2 createPhysicsObject:world];
-                    [self addChild:energy2 z:-1];                
-                    [self setLastEnergyHeight:energy2];
-                }
-            }
+//            if (arc4random() % 100 < 30) {
+//                int numRepeat = arc4random() % 5;
+//                for (int j = 1; j <= numRepeat; j++) {
+//                    SpriteObject *energy2;
+//                    energy2 = [Energy spriteWithFile:@"food.png"];
+//                    energy2.position = ccp(energy.position.x + [energy boundingBox].size.width * j + 10 + arc4random()%30,  startY + 40 * i + arc4random()%100);
+//                    [energy2 createPhysicsObject:world];
+//                    [self addChild:energy2 z:-1];                
+//                    [self setLastEnergyHeight:energy2];
+//                }
+//            }
         } else {
             energy = [Rocket spriteWithFile:@"food2x.png"];
-            energy.position = ccp(arc4random() % 320,  startY + 40 * i);
+            energy.position = ccp(arc4random() % 320,  startY + ySpace * i);
             [energy createPhysicsObject:world];
             [self addChild:energy z:-1];             
             [self setLastEnergyHeight:energy];
