@@ -64,7 +64,7 @@
         yVelocity /= 5.0f;
 
         
-        self.scale += 0.005;
+        self.scale *= 0.99;
         body->DestroyFixture(fixture);
         b2PolygonShape dynamicBox;
         dynamicBox.SetAsBox([self boundingBox].size.width/2/PTM_RATIO,[self boundingBox].size.height/2/PTM_RATIO);//These are mid points for our 1m box

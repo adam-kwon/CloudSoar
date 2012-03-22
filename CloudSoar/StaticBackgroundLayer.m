@@ -47,11 +47,11 @@
     zoomOutCounter++;
     if (zoomOutCounter >= 20) {
         zoomOutCounter = 0;
-        float scale = self.scale;
+        float scale = self.scale * 0.99;
         CCLOG(@"----------> scale = %f", scale);
         //[background stopAllActions];
         [self stopAllActions];
-        id scaleTo = [CCScaleTo actionWithDuration:1 scale:scale-0.05];
+        id scaleTo = [CCScaleTo actionWithDuration:1 scale:scale];
         [self runAction:scaleTo];
         
 //        id moveTo = [CCMoveTo actionWithDuration:5 position:ccp(screenSize.width/self.scale/2, screenSize.height/self.scale/2)];
