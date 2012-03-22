@@ -18,10 +18,12 @@
 @class Player;
 @class GameObject;
 @class SpriteObject;
+@class MainGameScene;
 
 // HelloWorldLayer
 @interface GameplayLayer : CCLayer
 {
+    MainGameScene                   *mainGameScene;
     CGSize                          screenSize;
     
     NSMutableArray                  *toDeleteArray;
@@ -30,6 +32,7 @@
 	GLESDebugDraw                   *m_debugDraw;
     PhysicsWorld                    *physicsWorld;
     
+//    CCSprite                        *background;
     
     float                           accelX;
     Player                          *player;
@@ -56,6 +59,6 @@
 
 @property (nonatomic, readonly) Player *player;
 @property (nonatomic, readwrite, assign) int leadOut;
-
+@property (nonatomic, readwrite, assign) MainGameScene *mainGameScene;
 
 @end

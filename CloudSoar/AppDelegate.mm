@@ -10,6 +10,7 @@
 
 #import "AppDelegate.h"
 #import "GameConfig.h"
+#import "MainGameScene.h"
 #import "GameplayLayer.h"
 #import "RootViewController.h"
 //#import "AudioEngine.h"
@@ -116,7 +117,8 @@
 //    [[AudioEngine sharedEngine] preloadEffect:@"energy.caf"];
     
 	// Run the intro Scene
-	[[CCDirector sharedDirector] runWithScene: [GameplayLayer scene]];
+//	[[CCDirector sharedDirector] runWithScene: [GameplayLayer scene]];
+	[[CCDirector sharedDirector] runWithScene: [MainGameScene node]];
 }
 
 

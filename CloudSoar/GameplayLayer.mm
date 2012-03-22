@@ -31,6 +31,7 @@ enum {
 - (void) generateEnergyWave;
 - (void) generateEnergyCircle;
 - (void) setLastEnergyHeight:(SpriteObject*)energy;
+//- (void) zoomOut:(NSNotification*)notifcation;
 @end
 
 // HelloWorldLayer implementation
@@ -38,6 +39,7 @@ enum {
 
 @synthesize player;
 @synthesize leadOut;
+@synthesize mainGameScene;
 
 static GameplayLayer *sharedInstance;
 
@@ -116,6 +118,17 @@ static GameplayLayer *sharedInstance;
 //		groundBox.SetAsEdge(b2Vec2(screenSize.width/PTM_RATIO,screenSize.height/PTM_RATIO), b2Vec2(screenSize.width/PTM_RATIO,0));
 //		groundBody->CreateFixture(&groundBox,0);
 		
+//        background = [CCSprite spriteWithFile:@"wallpaper.png"];
+//        background.anchorPoint = ccp(0.5, 0.5);
+//        background.scale = 5.0;
+//        background.position = ccp(screenSize.width/2, screenSize.height/2);
+//        //bg.rotation = 90;
+//        [self addChild:background z:-1];
+//
+//        [[NSNotificationCenter defaultCenter] addObserver:self 
+//                                                 selector:@selector(zoomOut:) 
+//                                                     name:ZOOM_OUT_NOTIFICATION object:nil];
+
         
         player = [Player spriteWithFile:@"blocks.png"];
         player.position = ccp(160, 20);
@@ -134,6 +147,11 @@ static GameplayLayer *sharedInstance;
 	}
 	return self;
 }
+
+//- (void) zoomOut:(NSNotification*)notifcation {
+//    self.scale -= 0.001;
+//    background.position = ccp(screenSize.width/self.scale/2, screenSize.height/self.scale/2);
+//}
 
 -(void) draw
 {

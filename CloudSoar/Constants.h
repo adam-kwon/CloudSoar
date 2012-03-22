@@ -27,6 +27,8 @@
 
 #define TILT_SENSITIVITY        0.20                                        // Bigger value is more sensitive
 
+#define ZOOM_OUT_NOTIFICATION   @"cloud_zoomOutNotification"
+
 // Define game object types here
 typedef enum {
 	kGameObjectNone,                            // 0
