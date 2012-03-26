@@ -47,7 +47,7 @@
     zoomOutCounter++;
     if (zoomOutCounter >= 20) {
         zoomOutCounter = 0;
-        float scale = self.scale * 0.99;
+        float scale = self.scale * 0.90;
         CCLOG(@"----------> scale = %f", scale);
         //[background stopAllActions];
         [self stopAllActions];
