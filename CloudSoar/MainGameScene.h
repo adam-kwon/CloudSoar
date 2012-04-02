@@ -10,12 +10,15 @@
 
 @class StaticBackgroundLayer;
 @class GameplayLayer;
+@class ParallaxBackgroundLayer;
 
 @interface MainGameScene : CCScene {
     StaticBackgroundLayer       *staticBackgroundLayer;
+    ParallaxBackgroundLayer     *parallaxBackgroundLayer;
     GameplayLayer               *gameplayLayer;
 }
 
 @property (nonatomic, readwrite, assign) StaticBackgroundLayer *stackBackgroundLayer;
+@property (nonatomic, readwrite, assign) ParallaxBackgroundLayer *parallaxBackgroundLayer;
 
 @end

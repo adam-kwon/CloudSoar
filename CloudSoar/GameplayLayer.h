@@ -19,11 +19,14 @@
 @class GameObject;
 @class SpriteObject;
 @class MainGameScene;
+@class ParallaxBackgroundLayer;
 
 // HelloWorldLayer
 @interface GameplayLayer : CCLayer
 {
     MainGameScene                   *mainGameScene;
+    ParallaxBackgroundLayer         *parallaxLayer;
+    
     CGSize                          screenSize;
     
     NSMutableArray                  *toDeleteArray;
@@ -54,7 +57,8 @@
 // returns a CCScene that contains the HelloWorldLayer as the only child
 + (CCScene *) scene;
 + (GameplayLayer*) sharedInstance;
-
+- (void) startMainGameLoop;
+- (void) initializeGameLayers;
 - (void) addToDeleteList:(CCNode<GameObject>*)node;
 
 @property (nonatomic, readonly) Player *player;

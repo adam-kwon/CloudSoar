@@ -14,6 +14,8 @@
 #import "Energy.h"
 #import "Rocket.h"
 #import "GPUtil.h"
+#import "MainGameScene.h"
+#import "ParallaxBackgroundLayer.h"
 
 // enums that will be used as tags
 enum {
@@ -64,8 +66,7 @@ static GameplayLayer *sharedInstance;
 }
 
 // on "init" you need to initialize your instance
--(id) init
-{
+-(id) init {
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init])) {        
@@ -86,7 +87,7 @@ static GameplayLayer *sharedInstance;
         lastEnergyHeight = 0.f;
         
         sharedInstance = self;
-        
+                
 		[PhysicsWorld createInstance];
         physicsWorld = [PhysicsWorld sharedWorld];
         world = [physicsWorld getWorld];
@@ -141,12 +142,19 @@ static GameplayLayer *sharedInstance;
         
 		//CCSpriteBatchNode *batch = [CCSpriteBatchNode batchNodeWithFile:@"blocks.png" capacity:150];
 		//[self addChild:batch z:0 tag:kTagBatchNode];
-		
-	
-        [self scheduleUpdate];
-        
+    
 	}
 	return self;
+}
+
+- (void) startMainGameLoop {
+    [self scheduleUpdate];
+}
+
+- (void) initializeGameLayers {
+    mainGameScene = (MainGameScene*) [self parent];
+    parallaxLayer = [mainGameScene parallaxBackgroundLayer];
+    CCLOG(@"HERE");
 }
 
 //- (void) zoomOut:(NSNotification*)notifcation {
@@ -154,8 +162,7 @@ static GameplayLayer *sharedInstance;
 //    background.position = ccp(screenSize.width/self.scale/2, screenSize.height/self.scale/2);
 //}
 
--(void) draw
-{
+-(void) draw {
 	// Default GL states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_COLOR_ARRAY, GL_TEXTURE_COORD_ARRAY
 	// Needed states:  GL_VERTEX_ARRAY, 
 	// Unneeded states: GL_TEXTURE_2D, GL_COLOR_ARRAY, GL_TEXTURE_COORD_ARRAY
@@ -318,8 +325,7 @@ static GameplayLayer *sharedInstance;
     }
 }
 
--(void) update:(ccTime) dt
-{
+-(void) update:(ccTime) dt {
 	//It is recommended that a fixed time step is used with Box2D for stability
 	//of the simulation, however, we are using a variable time step here.
 	//You need to make an informed choice, the following URL is useful
@@ -362,10 +368,12 @@ static GameplayLayer *sharedInstance;
 
 
     [player updateObject:dt withAccelX:accelX gameScale:self.scale];
-
+    
     if (fabsf(player.position.y - lastEnergyHeight) < screenSize.height) {
         [self generateEnergy];
     }
+    
+    [parallaxLayer setParallaxSpeed:[player body]->GetLinearVelocity().y];
 
 //        if (_newScale > g_rules.max_zoom_out && _newScale <= MAX_ZOOM_IN) {
 //            // Synthesized version of scale is set to 'assign', so it doesn't check

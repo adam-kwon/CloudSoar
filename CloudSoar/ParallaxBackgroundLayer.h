@@ -33,25 +33,18 @@
     float       scaledScreenWidth;
     CCArray     *meteors;
     BOOL        veryFirstTime;
-    CCSprite    *lastBackParallaxBuilding;                 
-    CCSprite    *lastFrontParallaxBuilding;
+    CCSprite    *earth;
 }
 
 + (ParallaxBackgroundLayer*) sharedLayer;
 - (void) setYOffset:(float)yOffset;
 - (void) update:(ccTime) delta;
 - (void) setZoom:(float)zoom;
-- (void) setBackZoom:(float)zoom;
-- (void) initIntroMeteorSystem;
-- (void) initMeteorSystem;
-- (void) startMeteorSystemIsForIntro:(BOOL)isIntro;
-- (BOOL) areAllMeteorsOffScreen;
 - (void) initParallaxLayers;
-- (void) resetMeteors;
 - (void) cleanupLayer;
 - (void) initLayer;
+- (void) setParallaxSpeed:(float)newSpeed;
 
-@property (nonatomic, readwrite, assign) float parallaxSpeed;
 @property (nonatomic, readwrite, assign) BOOL pauseScroll;
 @property (nonatomic, readwrite, assign) CCNode *backParallax;
 @property (nonatomic, readwrite, assign) CCNode *frontParallax;
