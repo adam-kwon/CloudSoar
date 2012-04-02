@@ -20,19 +20,18 @@
 - (id) init {
     self = [super init];
     if (self) {
-        screenSize = [[CCDirector sharedDirector] winSize];
-        background = [CCSprite spriteWithFile:@"wallpaper.png"];
-        background.anchorPoint = ccp(0.5, 0.5);
-        background.scale = 5.0;
-        background.position = ccp(screenSize.width/2, screenSize.height/2);
-        //bg.rotation = 90;
-        [self addChild:background];
+//        screenSize = [[CCDirector sharedDirector] winSize];
+//        background = [CCSprite spriteWithFile:@"wallpaper.png"];
+//        background.anchorPoint = ccp(0.5, 0.5);
+//        background.scale = 5.0;
+//        background.position = ccp(screenSize.width/2, screenSize.height/2);
+//        [self addChild:background];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self 
-                                                 selector:@selector(zoomOut:) 
-                                                     name:ZOOM_OUT_NOTIFICATION object:nil];
-        
-        [self schedule:@selector(repositionBackground) interval:1/10];
+//        [[NSNotificationCenter defaultCenter] addObserver:self 
+//                                                 selector:@selector(zoomOut:) 
+//                                                     name:ZOOM_OUT_NOTIFICATION object:nil];
+//        
+//        [self schedule:@selector(repositionBackground) interval:1/10];
 
     }
     

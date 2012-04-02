@@ -68,14 +68,15 @@ static GameplayLayer *sharedInstance;
 {
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super" return value
-	if( (self=[super init])) {
-        
+	if( (self=[super init])) {        
 		// enable touches
 		self.isTouchEnabled = YES;
 		
 		// enable accelerometer
 		self.isAccelerometerEnabled = YES;
 		
+        self.anchorPoint = CGPointZero;
+        
 		screenSize = [CCDirector sharedDirector].winSize;
 		
         leadOut = screenSize.height/2;
