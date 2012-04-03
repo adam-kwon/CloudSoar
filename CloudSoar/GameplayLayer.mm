@@ -369,7 +369,6 @@ static GameplayLayer *sharedInstance;
         }
         
     }
-    self.scale = 0.5;
 
 
     [player updateObject:dt withAccelX:accelX gameScale:self.scale];

@@ -112,9 +112,11 @@
     float halfSize = [self boundingBox].size.width/2;
     
     // Screen is scaled, anchor point at (0, 0)
-    float scaledDiff = (screenSize.width/gameScale - screenSize.width)/2;
-    float leftEdge = -scaledDiff;
-    float rightEdge = screenSize.width + scaledDiff;
+//    float scaledDiff = (screenSize.width/gameScale - screenSize.width)/2;
+//    float leftEdge = -scaledDiff;
+//    float rightEdge = screenSize.width + scaledDiff;
+
+    float rightEdge = screenSize.width / gameScale;
 
     b2Vec2 pos = body->GetPosition();
     
@@ -123,10 +125,10 @@
     // If going out of view (left or right), make it appear from the opposite side.
     // The entire object must be out of view before reappearing from the opposite side.
     if (self.position.x - halfSize > rightEdge) {
-        body->SetTransform(b2Vec2((leftEdge+halfSize+2)/PTM_RATIO + accelX, body->GetPosition().y), 0);
+        body->SetTransform(b2Vec2((-halfSize)/PTM_RATIO + accelX, body->GetPosition().y), 0);
     
-    } else if (self.position.x + halfSize < leftEdge) {
-        body->SetTransform(b2Vec2((rightEdge-(halfSize+2))/PTM_RATIO + accelX, body->GetPosition().y), 0);
+    } else if (self.position.x + halfSize < 0) {
+        body->SetTransform(b2Vec2((rightEdge-(-halfSize))/PTM_RATIO + accelX, body->GetPosition().y), 0);
     } else {
         // Manually move the physics object based on the acceleromter value
         body->SetTransform(b2Vec2(pos.x + accelX, pos.y), 0);
