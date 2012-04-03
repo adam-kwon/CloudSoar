@@ -118,7 +118,10 @@
     
 	// Run the intro Scene
 //	[[CCDirector sharedDirector] runWithScene: [GameplayLayer scene]];
-	[[CCDirector sharedDirector] runWithScene: [MainGameScene node]];
+    
+    MainGameScene *mainGameScene = [MainGameScene node];
+    [mainGameScene startGameplayLayer];
+	[[CCDirector sharedDirector] runWithScene: mainGameScene];
 }
 
 

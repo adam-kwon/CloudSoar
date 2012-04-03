@@ -18,6 +18,8 @@
     GameplayLayer               *gameplayLayer;
 }
 
+- (void) startGameplayLayer;
+
 @property (nonatomic, readwrite, assign) StaticBackgroundLayer *stackBackgroundLayer;
 @property (nonatomic, readwrite, assign) ParallaxBackgroundLayer *parallaxBackgroundLayer;
 

@@ -111,7 +111,7 @@
     
     float halfSize = [self boundingBox].size.width/2;
     
-    // Screen is scaled, so how much extra space on left and right of screen
+    // Screen is scaled, anchor point at (0, 0)
     float scaledDiff = (screenSize.width/gameScale - screenSize.width)/2;
     float leftEdge = -scaledDiff;
     float rightEdge = screenSize.width + scaledDiff;

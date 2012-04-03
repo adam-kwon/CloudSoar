@@ -8,7 +8,7 @@
 
 #import "ParallaxBackgroundLayer.h"
 #import "Constants.h"
-
+#import "GPUtil.h"
 
 @implementation ParallaxBackgroundLayer
 
@@ -58,13 +58,30 @@ static ParallaxBackgroundLayer *instanceOfLayer;
     frontParallax = [CCNode node];
     [self addChild:backParallax z:0];
     [self addChild:frontParallax z:2];
-    
-    earth = [CCSprite spriteWithFile:@"earth.png"];
-    earth.anchorPoint = CGPointZero;
-    earth.position = ccp(-originalScreenSize.width/3, originalScreenSize.height);
 
-    [self addChild:earth];
-    
+    CCSprite *earth = [CCSprite spriteWithFile:@"earth.png"];
+    earth.scale = 2.0f;
+    earth.anchorPoint = CGPointZero;
+    earth.position = ccp(-[earth boundingBox].size.width/2, originalScreenSize.height);
+    [backParallax addChild:earth];
+
+//    CCSprite *moon = [CCSprite spriteWithFile:@"moon.png"];
+//    moon.anchorPoint = CGPointZero;
+//    moon.position = ccp(earth.position.x + [earth boundingBox].size.width, originalScreenSize.height);
+//    [backParallax addChild:moon];
+
+
+    CCSprite *stars = [CCSprite spriteWithFile:@"stars1.png"];
+    stars.anchorPoint = CGPointZero;
+    stars.position = ccp([GPUtil randomFrom:0 to:originalScreenSize.width-[stars boundingBox].size.width], 
+                          originalScreenSize.height + [stars boundingBox].size.height);
+    [frontParallax addChild:stars];
+
+    CCSprite *galaxy = [CCSprite spriteWithFile:@"galaxy.png"];
+    galaxy.position = ccp([GPUtil randomFrom:0 to:originalScreenSize.width-[galaxy boundingBox].size.width], 
+                          stars.position.y + [GPUtil randomFrom:originalScreenSize.height to:originalScreenSize.height*2]);
+    [frontParallax addChild:galaxy];
+
     [self initParallaxLayers];
     
     // No need to go at full 1/60 cycle.
@@ -74,7 +91,8 @@ static ParallaxBackgroundLayer *instanceOfLayer;
 
 
 - (void) setParallaxSpeed:(float)newSpeed {
-    parallaxSpeed = newSpeed / 10.f;
+    parallaxSpeed = newSpeed / 200.f;
+    frontParallaxSpeed = newSpeed / 10.f;
     if (parallaxSpeed < 0) {
         parallaxSpeed = 0;
     }
@@ -88,7 +106,20 @@ static ParallaxBackgroundLayer *instanceOfLayer;
     }
 
     scaledScreenWidth = originalScreenSize.width / frontParallax.scale;
-    earth.position = ccp(earth.position.x, earth.position.y-parallaxSpeed);
+
+    CCSprite *sprite;
+
+//    CCARRAY_FOREACH([frontParallax children], sprite) {
+//        CGPoint pos = sprite.position;
+//        
+//        pos.y -= parallaxSpeed;
+//        if (pos.y <= [
+//    }
+    
+    
+    backParallax.position = ccp(backParallax.position.x, backParallax.position.y-parallaxSpeed);
+    frontParallax.position = ccp(frontParallax.position.x, frontParallax.position.y-frontParallaxSpeed);
+    
 }
 
 - (void) setZoom:(float)zoom {
@@ -115,8 +146,6 @@ static ParallaxBackgroundLayer *instanceOfLayer;
 
 -(void) dealloc {
     CCLOG(@"**** ParallaxBackgroundLayer dealloc");
-    [meteors removeAllObjects];
-    [meteors release];
     
     [super dealloc];
 }

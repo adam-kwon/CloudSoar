@@ -26,14 +26,13 @@
 
 @interface ParallaxBackgroundLayer : CCLayer { 
     BOOL        pauseScroll;
+    float       frontParallaxSpeed;
     float       parallaxSpeed;                              // Speed at which the parallax layers scroll (set from main game loop)
     CGSize      originalScreenSize;                         // Original screen size before being scaled
     CCNode      *backParallax;                              // CCNode that holds all buildings in the front parallax layer (used as container for zoom purposes)
     CCNode      *frontParallax;                             // CCNode that holds all buildings in the back parallax layer (used as container for zoom purposes) 
     float       scaledScreenWidth;
-    CCArray     *meteors;
     BOOL        veryFirstTime;
-    CCSprite    *earth;
 }
 
 + (ParallaxBackgroundLayer*) sharedLayer;

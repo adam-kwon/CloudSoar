@@ -154,7 +154,6 @@ static GameplayLayer *sharedInstance;
 - (void) initializeGameLayers {
     mainGameScene = (MainGameScene*) [self parent];
     parallaxLayer = [mainGameScene parallaxBackgroundLayer];
-    CCLOG(@"HERE");
 }
 
 //- (void) zoomOut:(NSNotification*)notifcation {
@@ -364,7 +363,13 @@ static GameplayLayer *sharedInstance;
         if (_newScale < 1.0) {
             self.scale = _newScale;
         }
+        
+        if (player.powerUpState == kPowerUpStateInEffect) {
+            [parallaxLayer setZoom:_newScale];
+        }
+        
     }
+    self.scale = 0.5;
 
 
     [player updateObject:dt withAccelX:accelX gameScale:self.scale];

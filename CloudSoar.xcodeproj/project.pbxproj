@@ -173,6 +173,9 @@
 		39BF16FC151AC41300F2E0E5 /* StaticBackgroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BF16FB151AC41200F2E0E5 /* StaticBackgroundLayer.m */; };
 		39EC0DB0152947E7004D916A /* earth.png in Resources */ = {isa = PBXBuildFile; fileRef = 39EC0DAF152947E7004D916A /* earth.png */; };
 		39EC0DB31529486F004D916A /* ParallaxBackgroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EC0DB21529486F004D916A /* ParallaxBackgroundLayer.m */; };
+		39F096A6152A3E2A00BEB8D6 /* moon.png in Resources */ = {isa = PBXBuildFile; fileRef = 39F096A5152A3E2A00BEB8D6 /* moon.png */; };
+		39F096A9152A40CA00BEB8D6 /* stars1.png in Resources */ = {isa = PBXBuildFile; fileRef = 39F096A8152A40CA00BEB8D6 /* stars1.png */; };
+		39F096AB152A444400BEB8D6 /* galaxy.png in Resources */ = {isa = PBXBuildFile; fileRef = 39F096AA152A444400BEB8D6 /* galaxy.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -514,6 +517,9 @@
 		39EC0DAF152947E7004D916A /* earth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = earth.png; sourceTree = "<group>"; };
 		39EC0DB11529486F004D916A /* ParallaxBackgroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParallaxBackgroundLayer.h; sourceTree = "<group>"; };
 		39EC0DB21529486F004D916A /* ParallaxBackgroundLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParallaxBackgroundLayer.m; sourceTree = "<group>"; };
+		39F096A5152A3E2A00BEB8D6 /* moon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moon.png; sourceTree = "<group>"; };
+		39F096A8152A40CA00BEB8D6 /* stars1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stars1.png; sourceTree = "<group>"; };
+		39F096AA152A444400BEB8D6 /* galaxy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = galaxy.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -627,6 +633,9 @@
 		39486B1F1516E2260076D9CF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				39F096AA152A444400BEB8D6 /* galaxy.png */,
+				39F096A8152A40CA00BEB8D6 /* stars1.png */,
+				39F096A5152A3E2A00BEB8D6 /* moon.png */,
 				39EC0DAF152947E7004D916A /* earth.png */,
 				3996FF7E1517D23F00954CF1 /* food2x.png */,
 				3940D9B815178C1E00B13AAF /* energy.caf */,
@@ -1160,6 +1169,9 @@
 				3940D9BB15178C1E00B13AAF /* food.png in Resources */,
 				3996FF7F1517D23F00954CF1 /* food2x.png in Resources */,
 				39EC0DB0152947E7004D916A /* earth.png in Resources */,
+				39F096A6152A3E2A00BEB8D6 /* moon.png in Resources */,
+				39F096A9152A40CA00BEB8D6 /* stars1.png in Resources */,
+				39F096AB152A444400BEB8D6 /* galaxy.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

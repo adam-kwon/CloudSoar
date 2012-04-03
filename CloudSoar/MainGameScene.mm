@@ -43,9 +43,12 @@
 
 - (void) initGameplayLayer {
     gameplayLayer = [GameplayLayer node];
+    [self addChild:gameplayLayer z:-5];
+}
+
+- (void) startGameplayLayer {
     [gameplayLayer initializeGameLayers];
     [gameplayLayer startMainGameLoop];
-    [self addChild:gameplayLayer z:-5];
 }
 
 @end
