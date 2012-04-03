@@ -32,6 +32,7 @@
     CCNode      *backParallax;                              // CCNode that holds all buildings in the front parallax layer (used as container for zoom purposes)
     CCNode      *frontParallax;                             // CCNode that holds all buildings in the back parallax layer (used as container for zoom purposes) 
     float       scaledScreenWidth;
+    float       scaledScreenHeight;
     BOOL        veryFirstTime;
 }
 

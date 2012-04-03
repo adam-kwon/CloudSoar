@@ -96,7 +96,7 @@ static ParallaxBackgroundLayer *instanceOfLayer;
     if (parallaxSpeed < 0) {
         parallaxSpeed = 0;
     }
-    CCLOG(@"parallax speed = %f", parallaxSpeed);
+//    CCLOG(@"parallax speed = %f", parallaxSpeed);
 }
 
 
@@ -105,19 +105,25 @@ static ParallaxBackgroundLayer *instanceOfLayer;
         return;
     }
 
-    scaledScreenWidth = originalScreenSize.width / frontParallax.scale;
-
+    scaledScreenWidth = originalScreenSize.width / backParallax.scale;
+    scaledScreenHeight = originalScreenSize.height / backParallax.scale;
+    
     CCSprite *sprite;
 
-//    CCARRAY_FOREACH([frontParallax children], sprite) {
-//        CGPoint pos = sprite.position;
-//        
-//        pos.y -= parallaxSpeed;
-//        if (pos.y <= [
-//    }
+    CCARRAY_FOREACH([backParallax children], sprite) {
+        CGPoint pos = sprite.position;
+        
+        pos.y -= parallaxSpeed;
+        //CCLOG(@"pos=%f   win=%f", pos.y,  scaledScreenHeight - [sprite boundingBox].size.height);
+        if (pos.y <= scaledScreenHeight - [sprite boundingBox].size.height) {
+            pos.y = scaledScreenHeight - [sprite boundingBox].size.height;
+        }
+        
+        sprite.position = pos;
+    }
     
     
-    backParallax.position = ccp(backParallax.position.x, backParallax.position.y-parallaxSpeed);
+//    backParallax.position = ccp(backParallax.position.x, backParallax.position.y-parallaxSpeed);
     frontParallax.position = ccp(frontParallax.position.x, frontParallax.position.y-frontParallaxSpeed);
     
 }
