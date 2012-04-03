@@ -181,148 +181,6 @@ static GameplayLayer *sharedInstance;
 
 }
 
-- (void) setLastEnergyHeight:(SpriteObject*)energy {
-    if (energy.position.y > lastEnergyHeight) {
-        lastEnergyHeight = energy.position.y;
-    }
-}
-
-- (void) generateEnergyVerticalLine {
-    float startY = 60 + lastEnergyHeight;
-
-    int col = arc4random() % 280 + 20;
-    for (int i = 0; i < 10; i++) {
-        SpriteObject *energy;
-        energy = [Energy spriteWithFile:@"food.png"];
-        energy.position = ccp(col, startY + 50 * i);
-        [energy createPhysicsObject:world];
-        [self addChild:energy];
-        [self setLastEnergyHeight:energy];
-    }
-}
-
-- (void) generateEnergyRandom {
-    float startY = 60 + lastEnergyHeight;
-    
-    int numRows = 5 + arc4random()%10;
-    
-    int ySpace = 40+arc4random()%40;
-    
-    for (int i = 0; i < numRows; i++) {
-        SpriteObject *energy;
-        int chance = arc4random() % 100;
-        if (chance <= 93) {
-            energy = [Energy spriteWithFile:@"food.png"];
-            energy.position = ccp(arc4random() % 320,  startY + ySpace * i);
-            [energy createPhysicsObject:world];
-            [self addChild:energy z:-1];
-            [self setLastEnergyHeight:energy];
-//            if (arc4random() % 100 < 30) {
-//                int numRepeat = arc4random() % 5;
-//                for (int j = 1; j <= numRepeat; j++) {
-//                    SpriteObject *energy2;
-//                    energy2 = [Energy spriteWithFile:@"food.png"];
-//                    energy2.position = ccp(energy.position.x + [energy boundingBox].size.width * j + 10 + arc4random()%30,  startY + 40 * i + arc4random()%100);
-//                    [energy2 createPhysicsObject:world];
-//                    [self addChild:energy2 z:-1];                
-//                    [self setLastEnergyHeight:energy2];
-//                }
-//            }
-        } else {
-            energy = [Rocket spriteWithFile:@"food2x.png"];
-            energy.position = ccp(arc4random() % 320,  startY + ySpace * i);
-            [energy createPhysicsObject:world];
-            [self addChild:energy z:-1];             
-            [self setLastEnergyHeight:energy];
-        }
-    }    
-    
-    [self generateEnergyCircle];
-}
-
-- (void) generateEnergyDiamond {
-}
-
-- (void) generateEnergyCircle {
-    int startX = arc4random() % 250 + 50;
-    float startY = lastEnergyHeight;
-    
-    int radius = 20 + arc4random() % 50;
-    
-    startY += radius*3;
-    
-    float thetaDelta;
-
-    if (radius > 50) {
-        thetaDelta = 0.5;
-    } else {
-        thetaDelta = 1.0;
-    }
-    for (float theta = 0; theta < M_PI*2; theta += thetaDelta) {
-        SpriteObject *energy = [Energy spriteWithFile:@"food.png"];
-        float x = startX + cosf(theta)*radius;
-        float y = startY + sinf(theta)*radius;
-        energy.position = ccp(x, y);
-        [energy createPhysicsObject:world];
-        [self addChild:energy z:-1];      
-        
-        [self setLastEnergyHeight:energy];
-    }
-}
-
-- (void) generateEnergyWave {
-    int startX = arc4random() % 250 + 50;
-    float startY = lastEnergyHeight + 50;
-        
-    int amplitude = 10 + arc4random() % 100;
-
-    int doubleHelixChance = arc4random() % 100;
-    
-    for (float theta = 0; theta < M_PI*2; theta += 0.4) {
-        SpriteObject *energy = [Energy spriteWithFile:@"food.png"];
-        float x = startX + sinf(theta)*amplitude;
-        energy.position = ccp(x, startY);
-        [energy createPhysicsObject:world];
-        [self addChild:energy z:-1];                        
-        [self setLastEnergyHeight:energy];
-        if (doubleHelixChance < 50) {
-            SpriteObject *energy2;
-            x = startX + sinf(theta + M_PI)*amplitude;
-            energy2 = [Energy spriteWithFile:@"food.png"];
-            energy2.position = ccp(x,  startY);
-            [energy2 createPhysicsObject:world];
-            [self addChild:energy2 z:-1]; 
-            [self setLastEnergyHeight:energy2];
-            
-        } 
-//        else {
-//            if (arc4random() % 100 < 25) {
-//                int numRepeat = arc4random() % 5;
-//                for (int j = 1; j <= numRepeat; j++) {
-//                    SpriteObject *energy2;
-//                    energy2 = [Energy spriteWithFile:@"food.png"];
-//                    energy2.position = ccp(energy.position.x + [energy boundingBox].size.width * j + 5 + arc4random()%50,  startY);
-//                    [energy2 createPhysicsObject:world];
-//                    [self addChild:energy2 z:-1];                
-//                }        
-//            }
-//        }
-        
-        startY += [energy boundingBox].size.height + 5;
-
-    }
-}
-
-- (void) generateEnergy {
-    int chance = arc4random() % 100;
-    if (chance < 40) {
-        [self generateEnergyRandom];
-    } else if (chance >= 40 && chance < 70) {
-        [self generateEnergyVerticalLine];
-    } else if (chance >= 70 && chance < 100) {
-        [self generateEnergyWave];
-    }
-}
 
 -(void) update:(ccTime) dt {
 	//It is recommended that a fixed time step is used with Box2D for stability
@@ -332,9 +190,8 @@ static GameplayLayer *sharedInstance;
 
     [physicsWorld step:dt];
 
-
-    if (player.powerUpState == kPowerUpStateInEffect 
-        || (player.powerUpState == kPowerUpStateNone && self.scale < 1.0)) {
+    // Only zoom out when power up is in effect
+    if (player.rocketState == kPowerUpStateInEffect) {        
         float velocity = [player body]->GetLinearVelocity().y / (20);
         
         // Zoom effect
@@ -364,10 +221,15 @@ static GameplayLayer *sharedInstance;
             self.scale = _newScale;
         }
         
-        if (player.powerUpState == kPowerUpStateInEffect) {
-            [parallaxLayer setZoom:_newScale];
+        [parallaxLayer setZoom:_newScale];
+    }
+    else if (player.rocketState != kPowerUpStateInEffect && self.scale < 1.0) {
+        self.scale *= (1.0 + (0.2)*dt);
+        if (self.scale > 1.0) {
+            self.scale = 1.0;
         }
         
+        [parallaxLayer setZoom:self.scale];
     }
 
 
@@ -378,16 +240,6 @@ static GameplayLayer *sharedInstance;
     }
     
     [parallaxLayer setParallaxSpeed:[player body]->GetLinearVelocity().y];
-
-//        if (_newScale > g_rules.max_zoom_out && _newScale <= MAX_ZOOM_IN) {
-//            // Synthesized version of scale is set to 'assign', so it doesn't check
-//            // if new value is same as old value. So check it explicitly here.
-//            if (_newScale != self.scale) {
-//                self.scale = _newScale;                
-//                _mgs = (MainGameScene*)[self parent];
-//                [[ParallaxBackgroundLayer sharedLayer] setZoom:_newScale];
-//            }
-//        }
 
     //Iterate over the bodies in the physics world
     _curBodyNode = world->GetBodyList();
@@ -432,6 +284,150 @@ static GameplayLayer *sharedInstance;
         }
     }
 }
+
+- (void) setLastEnergyHeight:(SpriteObject*)energy {
+    if (energy.position.y > lastEnergyHeight) {
+        lastEnergyHeight = energy.position.y;
+    }
+}
+
+- (void) generateEnergyVerticalLine {
+    float startY = 60 + lastEnergyHeight;
+    
+    int col = arc4random() % 280 + 20;
+    for (int i = 0; i < 10; i++) {
+        SpriteObject *energy;
+        energy = [Energy spriteWithFile:@"food.png"];
+        energy.position = ccp(col, startY + 50 * i);
+        [energy createPhysicsObject:world];
+        [self addChild:energy];
+        [self setLastEnergyHeight:energy];
+    }
+}
+
+- (void) generateEnergyRandom {
+    float startY = 60 + lastEnergyHeight;
+    
+    int numRows = 5 + arc4random()%10;
+    
+    int ySpace = 40+arc4random()%40;
+    
+    for (int i = 0; i < numRows; i++) {
+        SpriteObject *energy;
+        int chance = arc4random() % 100;
+        if (chance <= 93) {
+            energy = [Energy spriteWithFile:@"food.png"];
+            energy.position = ccp([GPUtil randomFrom:0 to:screenSize.width/self.scale],  startY + ySpace * i);
+            [energy createPhysicsObject:world];
+            [self addChild:energy z:-1];
+            [self setLastEnergyHeight:energy];
+            //            if (arc4random() % 100 < 30) {
+            //                int numRepeat = arc4random() % 5;
+            //                for (int j = 1; j <= numRepeat; j++) {
+            //                    SpriteObject *energy2;
+            //                    energy2 = [Energy spriteWithFile:@"food.png"];
+            //                    energy2.position = ccp(energy.position.x + [energy boundingBox].size.width * j + 10 + arc4random()%30,  startY + 40 * i + arc4random()%100);
+            //                    [energy2 createPhysicsObject:world];
+            //                    [self addChild:energy2 z:-1];                
+            //                    [self setLastEnergyHeight:energy2];
+            //                }
+            //            }
+        } else {
+            energy = [Rocket spriteWithFile:@"food2x.png"];
+            energy.position = ccp([GPUtil randomFrom:0 to:screenSize.width/self.scale],  startY + ySpace * i);
+            [energy createPhysicsObject:world];
+            [self addChild:energy z:-1];             
+            [self setLastEnergyHeight:energy];
+        }
+    }    
+    
+    [self generateEnergyCircle];
+}
+
+- (void) generateEnergyDiamond {
+}
+
+- (void) generateEnergyCircle {
+    int startX = [GPUtil randomFrom:50 to:screenSize.width/self.scale];
+    float startY = lastEnergyHeight;
+    
+    int radius = 20 + arc4random() % 50;
+    
+    startY += radius*3;
+    
+    float thetaDelta;
+    
+    if (radius > 50) {
+        thetaDelta = 0.5;
+    } else {
+        thetaDelta = 1.0;
+    }
+    for (float theta = 0; theta < M_PI*2; theta += thetaDelta) {
+        SpriteObject *energy = [Energy spriteWithFile:@"food.png"];
+        float x = startX + cosf(theta)*radius;
+        float y = startY + sinf(theta)*radius;
+        energy.position = ccp(x, y);
+        [energy createPhysicsObject:world];
+        [self addChild:energy z:-1];      
+        
+        [self setLastEnergyHeight:energy];
+    }
+}
+
+- (void) generateEnergyWave {
+    int startX = [GPUtil randomFrom:50 to:screenSize.width/self.scale];
+    float startY = lastEnergyHeight + 50;
+    
+    int amplitude = 10 + arc4random() % 100;
+    
+    int doubleHelixChance = arc4random() % 100;
+    
+    for (float theta = 0; theta < M_PI*2; theta += 0.4) {
+        SpriteObject *energy = [Energy spriteWithFile:@"food.png"];
+        float x = startX + sinf(theta)*amplitude;
+        energy.position = ccp(x, startY);
+        [energy createPhysicsObject:world];
+        [self addChild:energy z:-1];                        
+        [self setLastEnergyHeight:energy];
+        if (doubleHelixChance < 50) {
+            SpriteObject *energy2;
+            x = startX + sinf(theta + M_PI)*amplitude;
+            energy2 = [Energy spriteWithFile:@"food.png"];
+            energy2.position = ccp(x,  startY);
+            [energy2 createPhysicsObject:world];
+            [self addChild:energy2 z:-1]; 
+            [self setLastEnergyHeight:energy2];
+            
+        } 
+        //        else {
+        //            if (arc4random() % 100 < 25) {
+        //                int numRepeat = arc4random() % 5;
+        //                for (int j = 1; j <= numRepeat; j++) {
+        //                    SpriteObject *energy2;
+        //                    energy2 = [Energy spriteWithFile:@"food.png"];
+        //                    energy2.position = ccp(energy.position.x + [energy boundingBox].size.width * j + 5 + arc4random()%50,  startY);
+        //                    [energy2 createPhysicsObject:world];
+        //                    [self addChild:energy2 z:-1];                
+        //                }        
+        //            }
+        //        }
+        
+        startY += [energy boundingBox].size.height + 5;
+        
+    }
+}
+
+- (void) generateEnergy {
+    int chance = arc4random() % 100;
+    if (chance < 40) {
+        [self generateEnergyRandom];
+    } else if (chance >= 40 && chance < 70) {
+        [self generateEnergyVerticalLine];
+    } else if (chance >= 70 && chance < 100) {
+        [self generateEnergyWave];
+    }
+}
+
 
 - (void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [player jump];

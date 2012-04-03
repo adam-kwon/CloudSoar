@@ -41,8 +41,8 @@ void ContactListener::BeginContact(b2Contact *contact) {
         else if (IS_ROCKET(o1, o2)) {
             Player *player = GAMEOBJECT_OF_TYPE(Player, kGameObjectPlayer, o1, o2);
             player.state = kPlayerStateGotRocket;
-            if (player.powerUpState != kPowerUpStateInEffect) {
-                player.powerUpState = kPowerUpStateReceived;
+            if (player.rocketState != kPowerUpStateInEffect) {
+                player.rocketState = kPowerUpStateReceived;
                 SpriteObject *energy =  GAMEOBJECT_OF_TYPE(Rocket, kGameObjectRocket, o1, o2);
                 energy.gameObjectState = kGameObjectStateDestroy;
             }

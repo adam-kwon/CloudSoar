@@ -72,15 +72,30 @@ static ParallaxBackgroundLayer *instanceOfLayer;
 //    [backParallax addChild:moon];
 
 
-    CCSprite *stars = [CCSprite spriteWithFile:@"stars1.png"];
-    stars.anchorPoint = CGPointZero;
-    stars.position = ccp([GPUtil randomFrom:0 to:originalScreenSize.width-[stars boundingBox].size.width], 
-                          originalScreenSize.height + [stars boundingBox].size.height);
-    [frontParallax addChild:stars];
+    CCSprite *stars1 = [CCSprite spriteWithFile:@"stars1.png"];
+    stars1.anchorPoint = CGPointZero;
+    stars1.position = ccp([GPUtil randomFrom:[stars1 boundingBox].size.width to:originalScreenSize.width/3], 
+                          originalScreenSize.height + [stars1 boundingBox].size.height);
+    [frontParallax addChild:stars1];
+    
+    CCSprite *stars2 = [CCSprite spriteWithFile:@"stars1.png"];
+    stars2.anchorPoint = CGPointZero;
+    stars2.flipX = YES;
+    stars2.position = ccp([GPUtil randomFrom:stars1.position.x+[stars1 boundingBox].size.width to:originalScreenSize.width-[stars1 boundingBox].size.width], 
+                          stars1.position.y + arc4random()%50);
+    [frontParallax addChild:stars2];
+
+    CCSprite *stars3 = [CCSprite spriteWithFile:@"stars1.png"];
+    stars3.anchorPoint = CGPointZero;
+    stars3.flipY = YES;
+    stars3.position = ccp([GPUtil randomFrom:[stars3 boundingBox].size.width to:originalScreenSize.width-[stars3 boundingBox].size.width],
+                          stars2.position.y+[stars2 boundingBox].size.height+arc4random()%((int)originalScreenSize.height));
+    [frontParallax addChild:stars3];
+
 
     CCSprite *galaxy = [CCSprite spriteWithFile:@"galaxy.png"];
     galaxy.position = ccp([GPUtil randomFrom:0 to:originalScreenSize.width-[galaxy boundingBox].size.width], 
-                          stars.position.y + [GPUtil randomFrom:originalScreenSize.height to:originalScreenSize.height*2]);
+                          stars3.position.y + [GPUtil randomFrom:originalScreenSize.height to:originalScreenSize.height*2]);
     [frontParallax addChild:galaxy];
 
     [self initParallaxLayers];
@@ -115,7 +130,6 @@ static ParallaxBackgroundLayer *instanceOfLayer;
         CGPoint pos = sprite.position;
         
         pos.y -= parallaxSpeed;
-        //CCLOG(@"pos=%f   win=%f", pos.y,  scaledScreenHeight - [sprite boundingBox].size.height);
         if (pos.y <= scaledScreenHeight - [sprite boundingBox].size.height) {
             pos.y = scaledScreenHeight - [sprite boundingBox].size.height;
         }
@@ -127,19 +141,13 @@ static ParallaxBackgroundLayer *instanceOfLayer;
         CGPoint pos = sprite.position;
         
         pos.y -= frontParallaxSpeed;
-        //CCLOG(@"pos=%f   win=%f", pos.y,  scaledScreenHeight - [sprite boundingBox].size.height);
         if (pos.y < -[sprite boundingBox].size.height) {
-            sprite.position = ccp([GPUtil randomFrom:[sprite boundingBox].size.width to:originalScreenSize.width-[sprite boundingBox].size.width],
-                                  [GPUtil randomFrom:originalScreenSize.height to:originalScreenSize.height + [sprite boundingBox].size.height]);
-            CCLOG(@"... repositioning: %f, %f", sprite.position.x, sprite.position.y);
+            pos = ccp([GPUtil randomFrom:[sprite boundingBox].size.width to:originalScreenSize.width-[sprite boundingBox].size.width],
+                      [GPUtil randomFrom:originalScreenSize.height to:originalScreenSize.height*2]);
         }
         
         sprite.position = pos;
     }
-    
-    
-//    backParallax.position = ccp(backParallax.position.x, backParallax.position.y-parallaxSpeed);
-//    frontParallax.position = ccp(frontParallax.position.x, frontParallax.position.y-frontParallaxSpeed);
     
 }
 

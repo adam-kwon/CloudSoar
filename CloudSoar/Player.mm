@@ -13,6 +13,7 @@
 @implementation Player
 @synthesize state;
 @synthesize powerUpState;
+@synthesize rocketState;
 
 - (id) init {
     self = [super init];
@@ -20,6 +21,7 @@
         gameObjectType = kGameObjectPlayer;
         state = kPlayerStateNone;
         powerUpState = kPowerUpStateNone;
+        rocketState = kPowerUpStateNone;
         screenSize = [[CCDirector sharedDirector] winSize];
     }
     return self;
@@ -52,7 +54,7 @@
 
 - (void) jump {
     // Do jump if not in rocket state
-    if (powerUpState != kPowerUpStateInEffect) {
+    if (rocketState != kPowerUpStateInEffect) {
         self.state = kPlayerStateNone;
 //        [GameplayLayer sharedInstance].leadOutOffSet = screenSize.height/2;
       
@@ -87,9 +89,9 @@
 
 
 - (void) rocket {
-    if (powerUpState == kPowerUpStateReceived) {
+    if (rocketState == kPowerUpStateReceived) {
         state = kPlayerStateNone;
-        powerUpState = kPowerUpStateInEffect;
+        rocketState = kPowerUpStateInEffect;
         //[self schedule:@selector(turnOffRocket) interval:5.f];
 
         float yVelocity = body->GetLinearVelocity().y;
@@ -106,6 +108,18 @@
     }
 }
 
+- (void) coolDownRocket {
+    [self unschedule:@selector(coolDownRocket)];
+    rocketState = kPowerUpStateCoolDown;
+}
+
+- (void) rocketBoost {
+    body->ApplyForce(b2Vec2(0, body->GetMass()*30), body->GetPosition());
+    if (!rocketStateCooldownScheduled) {
+        rocketStateCooldownScheduled = YES;
+        [self schedule:@selector(coolDownRocket) interval:5.0];
+    }
+}
 
 - (void) updateObject:(ccTime)dt withAccelX:(float)accelX gameScale:(float)gameScale {
     
@@ -151,30 +165,40 @@
             break;
     }
 
+    switch (rocketState) {
+        case kPowerUpStateInEffect:
+            [self rocketBoost];
+            break;
+        default:
+            break;
+    }
+    
     float yVelocity = body->GetLinearVelocity().y;
 
     //CCLOG(@"%f", body->GetLinearVelocity().y);
-    if (powerUpState == kPowerUpStateInEffect) {
-        if (yVelocity > 0 && yVelocity < 10) {
-            powerUpState = kPowerUpStateCoolDown;
-        }
-    } 
+//    if (powerUpState == kPowerUpStateInEffect) {
+//        if (yVelocity > 0 && yVelocity < 10) {
+//            powerUpState = kPowerUpStateCoolDown;
+//        }
+//    } 
 
    // CCLOG(@"yVelocity = %f", yVelocity);
 
     //CCLOG(@"leadout = %d", [GameplayLayer sharedInstance].leadOut);
-    if (yVelocity < -5 || powerUpState == kPowerUpStateCoolDown) {
+    if (yVelocity < -5 || rocketState == kPowerUpStateCoolDown) {
         [GameplayLayer sharedInstance].leadOut = [GameplayLayer sharedInstance].leadOut - 3;
         if ([GameplayLayer sharedInstance].leadOut <= 160) {
             [GameplayLayer sharedInstance].leadOut = 160;
-            powerUpState = kPowerUpStateNone;
+            rocketState = kPowerUpStateNone;
+            rocketStateCooldownScheduled = NO;
+
         }
-    } else if (yVelocity > 20 && powerUpState == kPowerUpStateInEffect) {
+    } else if (yVelocity > 20 && rocketState == kPowerUpStateInEffect) {
         [GameplayLayer sharedInstance].leadOut = [GameplayLayer sharedInstance].leadOut + 5;
-        if ([GameplayLayer sharedInstance].leadOut >= 450) {
-            [GameplayLayer sharedInstance].leadOut = 450;
+        if ([GameplayLayer sharedInstance].leadOut >= screenSize.height/gameScale - [self boundingBox].size.height*5) {
+            [GameplayLayer sharedInstance].leadOut = screenSize.height/gameScale - [self boundingBox].size.height*5;
         }
-    } else if (yVelocity > 10 && powerUpState != kPowerUpStateInEffect) {
+    } else if (yVelocity > 10 && rocketState != kPowerUpStateInEffect) {
         [GameplayLayer sharedInstance].leadOut = [GameplayLayer sharedInstance].leadOut + 3;
         if ([GameplayLayer sharedInstance].leadOut >= 280) {
             [GameplayLayer sharedInstance].leadOut = 280;
@@ -184,8 +208,6 @@
 
     self.position = ccp(body->GetPosition().x * PTM_RATIO, body->GetPosition().y * PTM_RATIO);
     self.rotation = -1 * CC_RADIANS_TO_DEGREES(body->GetAngle());
-
-
 }
 
 @end

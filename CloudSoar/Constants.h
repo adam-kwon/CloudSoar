@@ -21,7 +21,7 @@
 #define ZOOM_OUT_FACTOR_HEIGHT  0.00070                                     // How much to zoom out as height of player changes
 
 #define SMOOTH_ZOOM             1                                           // Use smooth zoom
-#define ZOOM_RATE               0.40 // pixels/sec                          // Zoom rate (depends on ZOOM_OUT_FACTOR)
+#define ZOOM_RATE               0.10 // pixels/sec                          // Zoom rate (depends on ZOOM_OUT_FACTOR)
 #define MAX_ZOOM_OUT            0.3f                                        // Will not zoom out past this point
 #define MAX_ZOOM_IN             0.75                                        // Will not zoom in past this point
 

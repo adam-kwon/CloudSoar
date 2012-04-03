@@ -26,6 +26,9 @@ typedef enum {
 @interface Player : SpriteObject {
     PlayerState state;
     PowerUpState powerUpState;
+    
+    PowerUpState rocketState;
+    BOOL rocketStateCooldownScheduled; 
 }
 
 - (void) rocket;
@@ -34,4 +37,5 @@ typedef enum {
 
 @property (nonatomic, readwrite, assign) PlayerState state;
 @property (nonatomic, readwrite, assign) PowerUpState powerUpState;
+@property (nonatomic, readwrite, assign) PowerUpState rocketState;
 @end
