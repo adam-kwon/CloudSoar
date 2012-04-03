@@ -42,6 +42,7 @@ static ParallaxBackgroundLayer *instanceOfLayer;
 - (id) init {
     if ((self = [super init])) {
         [self setIsTouchEnabled:NO];
+        self.anchorPoint = CGPointZero;
         instanceOfLayer = self;
         
         originalScreenSize  = [[CCDirector sharedDirector] winSize];
@@ -121,10 +122,24 @@ static ParallaxBackgroundLayer *instanceOfLayer;
         
         sprite.position = pos;
     }
+
+    CCARRAY_FOREACH([frontParallax children], sprite) {
+        CGPoint pos = sprite.position;
+        
+        pos.y -= frontParallaxSpeed;
+        //CCLOG(@"pos=%f   win=%f", pos.y,  scaledScreenHeight - [sprite boundingBox].size.height);
+        if (pos.y < -[sprite boundingBox].size.height) {
+            sprite.position = ccp([GPUtil randomFrom:[sprite boundingBox].size.width to:originalScreenSize.width-[sprite boundingBox].size.width],
+                                  [GPUtil randomFrom:originalScreenSize.height to:originalScreenSize.height + [sprite boundingBox].size.height]);
+            CCLOG(@"... repositioning: %f, %f", sprite.position.x, sprite.position.y);
+        }
+        
+        sprite.position = pos;
+    }
     
     
 //    backParallax.position = ccp(backParallax.position.x, backParallax.position.y-parallaxSpeed);
-    frontParallax.position = ccp(frontParallax.position.x, frontParallax.position.y-frontParallaxSpeed);
+//    frontParallax.position = ccp(frontParallax.position.x, frontParallax.position.y-frontParallaxSpeed);
     
 }
 
