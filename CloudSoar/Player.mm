@@ -8,7 +8,6 @@
 
 #import "Player.h"
 #import "GameplayLayer.h"
-//#import "AudioEngine.h"
 
 @interface Player(Private)
 - (void) setupAnimations;
@@ -145,6 +144,8 @@ static BOOL animationLoaded;
         
         rocketParticle.visible = YES;
         [rocketParticle resetSystem];
+ 
+        windFx = [[AudioEngine sharedEngine] playEffect:SND_WIND gain:32 loop:YES];
     }   
 }
 
@@ -154,6 +155,7 @@ static BOOL animationLoaded;
     rocketStateCooldownScheduled = NO;
     rocketParticle.visible = NO;
     [rocketParticle stopSystem];
+    [[AudioEngine sharedEngine] stopEffect:windFx];
 }
 
 - (void) rocketBoost {

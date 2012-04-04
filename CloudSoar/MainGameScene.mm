@@ -46,6 +46,7 @@
     [[AudioEngine sharedEngine] preloadBackgroundMusic:GAME_MUSIC];
     
     [[AudioEngine sharedEngine] preloadEffect:SND_ENERGY];
+    [[AudioEngine sharedEngine] preloadEffect:SND_WIND];
 }
 
 - (void) initParallaxBackgroundLayer {

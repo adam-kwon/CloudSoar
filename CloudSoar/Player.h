@@ -8,6 +8,7 @@
 
 #import "PhysicsObject.h"
 #import "SpriteObject.h"
+#import "AudioEngine.h"
 
 typedef enum {
     kPlayerStateNone,
@@ -31,6 +32,8 @@ typedef enum {
     
     PowerUpState rocketState;
     BOOL rocketStateCooldownScheduled; 
+    
+    ALuint windFx;
 }
 
 - (void) rocket;

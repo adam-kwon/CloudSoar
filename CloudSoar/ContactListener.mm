@@ -39,7 +39,7 @@ void ContactListener::BeginContact(b2Contact *contact) {
             SpriteObject *energy =  GAMEOBJECT_OF_TYPE(Energy, kGameObjectEnergy, o1, o2);
             energy.gameObjectState = kGameObjectStateDestroy;
             
-            [[AudioEngine sharedEngine] playEffect:SND_ENERGY];
+            [[AudioEngine sharedEngine] playEffect:SND_ENERGY sourceGroupId:CGROUP0_1VOICE];
         }
         else if (IS_ROCKET(o1, o2)) {
             Player *player = GAMEOBJECT_OF_TYPE(Player, kGameObjectPlayer, o1, o2);
