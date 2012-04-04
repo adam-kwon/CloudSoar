@@ -225,8 +225,8 @@ static BOOL animationLoaded;
         }
     } else if (yVelocity > 20 && rocketState == kPowerUpStateInEffect) {
         [GameplayLayer sharedInstance].leadOut = [GameplayLayer sharedInstance].leadOut + 5;
-        if ([GameplayLayer sharedInstance].leadOut >= screenSize.height/gameScale - [self boundingBox].size.height*3) {
-            [GameplayLayer sharedInstance].leadOut = screenSize.height/gameScale - [self boundingBox].size.height*3;
+        if ([GameplayLayer sharedInstance].leadOut >= screenSize.height/gameScale - [self boundingBox].size.height*2) {
+            [GameplayLayer sharedInstance].leadOut = screenSize.height/gameScale - [self boundingBox].size.height*2;
         }
     } else if (yVelocity > 10 && rocketState != kPowerUpStateInEffect) {
         [GameplayLayer sharedInstance].leadOut = [GameplayLayer sharedInstance].leadOut + 3;

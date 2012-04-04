@@ -168,6 +168,10 @@
 		39486CF11516E22B0076D9CF /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = 39486CF01516E22B0076D9CF /* blocks.png */; };
 		39720876152BC7C3008B7E51 /* atlas_default.plist in Resources */ = {isa = PBXBuildFile; fileRef = 39720874152BC7C3008B7E51 /* atlas_default.plist */; };
 		39720877152BC7C3008B7E51 /* atlas_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 39720875152BC7C3008B7E51 /* atlas_default.png */; };
+		3972087B152BE0EC008B7E51 /* AudioEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 3972087A152BE0EC008B7E51 /* AudioEngine.m */; };
+		3972087F152BE124008B7E51 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3972087D152BE124008B7E51 /* UserData.m */; };
+		39720882152BE13A008B7E51 /* DeviceDetection.m in Sources */ = {isa = PBXBuildFile; fileRef = 39720881152BE13A008B7E51 /* DeviceDetection.m */; };
+		39720884152BE1E4008B7E51 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39720883152BE1E4008B7E51 /* MediaPlayer.framework */; };
 		39BF16F4151A999900F2E0E5 /* GPUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BF16F3151A999900F2E0E5 /* GPUtil.m */; };
 		39BF16F9151AC3EA00F2E0E5 /* MainGameScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = 39BF16F8151AC3EA00F2E0E5 /* MainGameScene.mm */; };
 		39BF16FC151AC41300F2E0E5 /* StaticBackgroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BF16FB151AC41200F2E0E5 /* StaticBackgroundLayer.m */; };
@@ -504,6 +508,14 @@
 		39486CF01516E22B0076D9CF /* blocks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blocks.png; path = Resources/blocks.png; sourceTree = "<group>"; };
 		39720874152BC7C3008B7E51 /* atlas_default.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = atlas_default.plist; sourceTree = "<group>"; };
 		39720875152BC7C3008B7E51 /* atlas_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = atlas_default.png; sourceTree = "<group>"; };
+		39720879152BE0EC008B7E51 /* AudioEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioEngine.h; sourceTree = "<group>"; };
+		3972087A152BE0EC008B7E51 /* AudioEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioEngine.m; sourceTree = "<group>"; };
+		3972087C152BE0F8008B7E51 /* AudioConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioConstants.h; sourceTree = "<group>"; };
+		3972087D152BE124008B7E51 /* UserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserData.m; sourceTree = "<group>"; };
+		3972087E152BE124008B7E51 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
+		39720880152BE13A008B7E51 /* DeviceDetection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceDetection.h; sourceTree = "<group>"; };
+		39720881152BE13A008B7E51 /* DeviceDetection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceDetection.m; sourceTree = "<group>"; };
+		39720883152BE1E4008B7E51 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		39BF16F2151A999900F2E0E5 /* GPUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUtil.h; sourceTree = "<group>"; };
 		39BF16F3151A999900F2E0E5 /* GPUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUtil.m; sourceTree = "<group>"; };
 		39BF16F7151AC3E900F2E0E5 /* MainGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainGameScene.h; sourceTree = "<group>"; };
@@ -519,6 +531,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39720884152BE1E4008B7E51 /* MediaPlayer.framework in Frameworks */,
 				39486B0F1516E2260076D9CF /* QuartzCore.framework in Frameworks */,
 				39486B111516E2260076D9CF /* OpenGLES.framework in Frameworks */,
 				39486B131516E2260076D9CF /* OpenAL.framework in Frameworks */,
@@ -564,6 +577,7 @@
 		39486AFF1516E2260076D9CF = {
 			isa = PBXGroup;
 			children = (
+				39720883152BE1E4008B7E51 /* MediaPlayer.framework */,
 				39486B1E1516E2260076D9CF /* CloudSoar */,
 				39486B0D1516E2260076D9CF /* Frameworks */,
 				39486B0B1516E2260076D9CF /* Products */,
@@ -596,6 +610,7 @@
 		39486B1E1516E2260076D9CF /* CloudSoar */ = {
 			isa = PBXGroup;
 			children = (
+				39720878152BE0E1008B7E51 /* Audio Engine */,
 				39BF16F0151A998B00F2E0E5 /* Misc Support */,
 				3940D9AD15178BD500B13AAF /* Game Objects */,
 				3940D9A415178BAE00B13AAF /* Physics */,
@@ -1083,9 +1098,23 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		39720878152BE0E1008B7E51 /* Audio Engine */ = {
+			isa = PBXGroup;
+			children = (
+				3972087C152BE0F8008B7E51 /* AudioConstants.h */,
+				39720879152BE0EC008B7E51 /* AudioEngine.h */,
+				3972087A152BE0EC008B7E51 /* AudioEngine.m */,
+			);
+			name = "Audio Engine";
+			sourceTree = "<group>";
+		};
 		39BF16F0151A998B00F2E0E5 /* Misc Support */ = {
 			isa = PBXGroup;
 			children = (
+				39720880152BE13A008B7E51 /* DeviceDetection.h */,
+				39720881152BE13A008B7E51 /* DeviceDetection.m */,
+				3972087D152BE124008B7E51 /* UserData.m */,
+				3972087E152BE124008B7E51 /* UserData.h */,
 				39BF16F2151A999900F2E0E5 /* GPUtil.h */,
 				39BF16F3151A999900F2E0E5 /* GPUtil.m */,
 			);
@@ -1310,6 +1339,9 @@
 				39BF16F9151AC3EA00F2E0E5 /* MainGameScene.mm in Sources */,
 				39BF16FC151AC41300F2E0E5 /* StaticBackgroundLayer.m in Sources */,
 				39EC0DB31529486F004D916A /* ParallaxBackgroundLayer.m in Sources */,
+				3972087B152BE0EC008B7E51 /* AudioEngine.m in Sources */,
+				3972087F152BE124008B7E51 /* UserData.m in Sources */,
+				39720882152BE13A008B7E51 /* DeviceDetection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
