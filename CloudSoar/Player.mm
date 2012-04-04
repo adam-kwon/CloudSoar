@@ -78,28 +78,51 @@ static BOOL animationLoaded;
     
     // Fly animation
     CCSpriteFrame *frame;
-    NSMutableArray *flyFrames = [NSMutableArray array];
+    NSMutableArray *frames = [NSMutableArray array];
     for (int i = 1; i <= 3; i++) {
         NSString *file = [NSString stringWithFormat:@"Fly-Cycle-%d.png", i];
         frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
-        [flyFrames addObject:frame];
+        [frames addObject:frame];
     }	
     
-    CCAnimation *animFlying = [CCAnimation animationWithFrames:flyFrames delay:0.075];
+    CCAnimation *anim = [CCAnimation animationWithFrames:frames delay:0.075];
     [[CCAnimationCache sharedAnimationCache] removeAnimationByName:@"flyingAnimation"];
-    [[CCAnimationCache sharedAnimationCache] addAnimation:animFlying name:@"flyingAnimation"];            
+    [[CCAnimationCache sharedAnimationCache] addAnimation:anim name:@"flyingAnimation"];            
     
     // Slide animation
-    NSMutableArray *slideFrames = [NSMutableArray array];
+    frames = [NSMutableArray array];
     for (int i = 1; i <= 1; i++) {
         NSString *file = [NSString stringWithFormat:@"Slide-Cycle-%d.png", i];
         frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
-        [slideFrames addObject:frame];
+        [frames addObject:frame];
     }	
     
-    CCAnimation *animSlide = [CCAnimation animationWithFrames:slideFrames delay:0.1];
+    anim = [CCAnimation animationWithFrames:frames delay:0.1];
     [[CCAnimationCache sharedAnimationCache] removeAnimationByName:@"slideAnimation"];
-    [[CCAnimationCache sharedAnimationCache] addAnimation:animSlide name:@"slideAnimation"];            
+    [[CCAnimationCache sharedAnimationCache] addAnimation:anim name:@"slideAnimation"];            
+
+    // Dive animation
+    frames = [NSMutableArray array];
+    for (int i = 1; i <= 3; i++) {
+        NSString *file = [NSString stringWithFormat:@"Fly-Dive-Cycle-%d.png", i];
+        frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
+        [frames addObject:frame];
+    }	
+    
+    anim = [CCAnimation animationWithFrames:frames delay:0.05];
+    [[CCAnimationCache sharedAnimationCache] removeAnimationByName:@"diveAnimation"];
+    [[CCAnimationCache sharedAnimationCache] addAnimation:anim name:@"diveAnimation"];            
+
+}
+
+- (void) dive {
+    if (animationState != kAnimationDive) {
+        animationState = kAnimationDive;
+        [self stopAllActions];
+        id anim = [CCAnimate actionWithAnimation:[[CCAnimationCache sharedAnimationCache] animationByName:@"diveAnimation"] restoreOriginalFrame:NO];
+        id repeat = [CCRepeatForever actionWithAction:anim];
+        [self runAction:repeat];        
+    }
 }
 
 - (void) jump {
@@ -152,6 +175,14 @@ static BOOL animationLoaded;
         state = kPlayerStateNone;
         rocketState = kPowerUpStateInEffect;
         //[self schedule:@selector(turnOffRocket) interval:5.f];
+
+        if (animationState != kAnimationFlying) {
+            animationState = kAnimationFlying;
+            [self stopAllActions];
+            id flyAnim = [CCAnimate actionWithAnimation:[[CCAnimationCache sharedAnimationCache] animationByName:@"flyingAnimation"] restoreOriginalFrame:NO];
+            id repeat = [CCRepeatForever actionWithAction:flyAnim];
+            [self runAction:repeat];
+        }
 
         float yVelocity = body->GetLinearVelocity().y;
         if (yVelocity < 0) {
@@ -253,6 +284,9 @@ static BOOL animationLoaded;
 
     //CCLOG(@"leadout = %d", [GameplayLayer sharedInstance].leadOut);
     if (yVelocity < -5 || rocketState == kPowerUpStateCoolDown) {
+        if (yVelocity < -5) {
+            [self dive];
+        }
         [GameplayLayer sharedInstance].leadOut = [GameplayLayer sharedInstance].leadOut - 3;
         if ([GameplayLayer sharedInstance].leadOut <= 160) {
             [GameplayLayer sharedInstance].leadOut = 160;

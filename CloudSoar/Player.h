@@ -27,6 +27,7 @@ typedef enum {
 typedef enum {
     kAnimationNone,
     kAnimationSlide,
+    kAnimationDive,
     kAnimationFlying
 } AnimationState;
 
@@ -46,6 +47,7 @@ typedef enum {
 
 - (void) rocket;
 - (void) jump;
+- (void) dive;
 - (void) updateObject:(ccTime)dt withAccelX:(float)accelX gameScale:(float)gameScale;
 
 @property (nonatomic, readwrite, assign) PlayerState state;
