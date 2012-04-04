@@ -151,6 +151,7 @@ static BOOL animationLoaded;
 - (void) coolDownRocket {
     [self unschedule:@selector(coolDownRocket)];
     rocketState = kPowerUpStateCoolDown;
+    rocketStateCooldownScheduled = NO;
     rocketParticle.visible = NO;
     [rocketParticle stopSystem];
 }
@@ -232,8 +233,6 @@ static BOOL animationLoaded;
         if ([GameplayLayer sharedInstance].leadOut <= 160) {
             [GameplayLayer sharedInstance].leadOut = 160;
             rocketState = kPowerUpStateNone;
-            rocketStateCooldownScheduled = NO;
-
         }
     } else if (yVelocity > 20 && rocketState == kPowerUpStateInEffect) {
         [GameplayLayer sharedInstance].leadOut = [GameplayLayer sharedInstance].leadOut + 5;
