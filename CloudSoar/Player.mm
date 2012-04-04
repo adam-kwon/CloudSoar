@@ -29,6 +29,14 @@ static BOOL animationLoaded;
         powerUpState = kPowerUpStateNone;
         rocketState = kPowerUpStateNone;
         screenSize = [[CCDirector sharedDirector] winSize];
+        
+        rocketParticle = [ARCH_OPTIMAL_PARTICLE_SYSTEM particleWithFile:@"rocket.plist"];
+        rocketParticle.rotation = -270;
+        rocketParticle.position = ccp(rocketParticle.position.x, rocketParticle.position.y+26);
+        [self addChild:rocketParticle z:-1];
+        [rocketParticle stopSystem];
+        rocketParticle.visible = NO;
+        
         [self setupAnimations];
         
         id flyAnim = [CCAnimate actionWithAnimation:[[CCAnimationCache sharedAnimationCache] animationByName:@"flyingAnimation"] restoreOriginalFrame:NO];
@@ -134,13 +142,17 @@ static BOOL animationLoaded;
         body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, yVelocity));
         
         body->ApplyLinearImpulse(b2Vec2(0, body->GetMass()*50), body->GetPosition());    
-                
-    }
+        
+        rocketParticle.visible = YES;
+        [rocketParticle resetSystem];
+    }   
 }
 
 - (void) coolDownRocket {
     [self unschedule:@selector(coolDownRocket)];
     rocketState = kPowerUpStateCoolDown;
+    rocketParticle.visible = NO;
+    [rocketParticle stopSystem];
 }
 
 - (void) rocketBoost {

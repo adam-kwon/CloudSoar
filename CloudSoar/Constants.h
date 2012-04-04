@@ -25,7 +25,7 @@
 #define MAX_ZOOM_OUT            0.3f                                        // Will not zoom out past this point
 #define MAX_ZOOM_IN             0.75                                        // Will not zoom in past this point
 
-#define TILT_SENSITIVITY        0.20                                        // Bigger value is more sensitive
+#define TILT_SENSITIVITY        0.30                                        // Bigger value is more sensitive
 
 #define ZOOM_OUT_NOTIFICATION   @"cloud_zoomOutNotification"
 

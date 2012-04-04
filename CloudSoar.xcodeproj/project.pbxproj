@@ -174,6 +174,7 @@
 		39720884152BE1E4008B7E51 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39720883152BE1E4008B7E51 /* MediaPlayer.framework */; };
 		39720886152BE47D008B7E51 /* APMainCue.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 39720885152BE47D008B7E51 /* APMainCue.mp3 */; };
 		39720888152BE4A4008B7E51 /* APMenuCue03.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 39720887152BE4A4008B7E51 /* APMenuCue03.mp3 */; };
+		3972088F152BF7C7008B7E51 /* rocket.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3972088E152BF7C7008B7E51 /* rocket.plist */; };
 		39BF16F4151A999900F2E0E5 /* GPUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BF16F3151A999900F2E0E5 /* GPUtil.m */; };
 		39BF16F9151AC3EA00F2E0E5 /* MainGameScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = 39BF16F8151AC3EA00F2E0E5 /* MainGameScene.mm */; };
 		39BF16FC151AC41300F2E0E5 /* StaticBackgroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BF16FB151AC41200F2E0E5 /* StaticBackgroundLayer.m */; };
@@ -520,6 +521,7 @@
 		39720883152BE1E4008B7E51 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		39720885152BE47D008B7E51 /* APMainCue.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = APMainCue.mp3; sourceTree = "<group>"; };
 		39720887152BE4A4008B7E51 /* APMenuCue03.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = APMenuCue03.mp3; sourceTree = "<group>"; };
+		3972088E152BF7C7008B7E51 /* rocket.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = rocket.plist; sourceTree = "<group>"; };
 		39BF16F2151A999900F2E0E5 /* GPUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUtil.h; sourceTree = "<group>"; };
 		39BF16F3151A999900F2E0E5 /* GPUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUtil.m; sourceTree = "<group>"; };
 		39BF16F7151AC3E900F2E0E5 /* MainGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainGameScene.h; sourceTree = "<group>"; };
@@ -644,6 +646,7 @@
 		39486B1F1516E2260076D9CF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3972088E152BF7C7008B7E51 /* rocket.plist */,
 				39720887152BE4A4008B7E51 /* APMenuCue03.mp3 */,
 				39720885152BE47D008B7E51 /* APMainCue.mp3 */,
 				39720874152BC7C3008B7E51 /* atlas_default.plist */,
@@ -1193,6 +1196,7 @@
 				39720877152BC7C3008B7E51 /* atlas_default.png in Resources */,
 				39720886152BE47D008B7E51 /* APMainCue.mp3 in Resources */,
 				39720888152BE4A4008B7E51 /* APMenuCue03.mp3 in Resources */,
+				3972088F152BF7C7008B7E51 /* rocket.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

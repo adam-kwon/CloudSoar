@@ -27,6 +27,8 @@ typedef enum {
     PlayerState state;
     PowerUpState powerUpState;
     
+    CCParticleSystem *rocketParticle;
+    
     PowerUpState rocketState;
     BOOL rocketStateCooldownScheduled; 
 }
