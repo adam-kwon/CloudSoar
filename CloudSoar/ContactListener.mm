@@ -13,6 +13,7 @@
 #import "Energy.h"
 #import "Rocket.h"
 #import "SpriteObject.h"
+#import "AudioEngine.h"
 
 #define IS_PLAYER(x,y)              ([x gameObjectType] == kGameObjectPlayer || [y gameObjectType] == kGameObjectPlayer)
 #define IS_ENERGY(x,y)              ([x gameObjectType] == kGameObjectEnergy || [y gameObjectType] == kGameObjectEnergy)
@@ -37,6 +38,8 @@ void ContactListener::BeginContact(b2Contact *contact) {
             player.state = kPlayerStateGotEnergy;
             SpriteObject *energy =  GAMEOBJECT_OF_TYPE(Energy, kGameObjectEnergy, o1, o2);
             energy.gameObjectState = kGameObjectStateDestroy;
+            
+            [[AudioEngine sharedEngine] playEffect:SND_ENERGY];
         }
         else if (IS_ROCKET(o1, o2)) {
             Player *player = GAMEOBJECT_OF_TYPE(Player, kGameObjectPlayer, o1, o2);

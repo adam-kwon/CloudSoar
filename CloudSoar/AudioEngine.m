@@ -97,9 +97,9 @@ static CDBufferManager *bufferManager = nil;
 }
 
 - (ALuint) playEffect:(NSString*)filePath sourceGroupId:(int)sourceGroupId pitch:(Float32)pitch pan:(Float32)pan gain:(Float32)gain loop:(BOOL)loop {
-    if ([@SND_SPACE_SHIP isEqualToString:filePath] && isAlienPlaying) {
+    if ([SND_SPACE_SHIP isEqualToString:filePath] && isAlienPlaying) {
         return CD_MUTE;
-    } else if ([@SND_SPACE_SHIP isEqualToString:filePath]) {
+    } else if ([SND_SPACE_SHIP isEqualToString:filePath]) {
         isAlienPlaying = YES;
     }
     

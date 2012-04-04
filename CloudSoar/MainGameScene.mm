@@ -10,11 +10,14 @@
 #import "StaticBackgroundLayer.h"
 #import "ParallaxBackgroundLayer.h"
 #import "GameplayLayer.h"
+#import "AudioEngine.h"
+#import "AudioConstants.h"
 
 @interface MainGameScene(Private) 
 - (void) initStaticBackgroundLayer;
 - (void) initGameplayLayer;
 - (void) initParallaxBackgroundLayer;
+- (void) loadAudio;
 @end
 
 @implementation MainGameScene
@@ -30,11 +33,19 @@
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"atlas_default.plist" texture:texture];
         [texture setAliasTexParameters];
         
+        [self loadAudio];
+        
         [self initStaticBackgroundLayer];
         [self initParallaxBackgroundLayer];
         [self initGameplayLayer];
 	}
 	return self;
+}
+
+- (void) loadAudio {
+    [[AudioEngine sharedEngine] preloadBackgroundMusic:GAME_MUSIC];
+    
+    [[AudioEngine sharedEngine] preloadEffect:SND_ENERGY];
 }
 
 - (void) initParallaxBackgroundLayer {
@@ -53,6 +64,7 @@
 }
 
 - (void) startGameplayLayer {
+    [[AudioEngine sharedEngine] playBackgroundMusic:GAME_MUSIC];
     [gameplayLayer initializeGameLayers];
     [gameplayLayer startMainGameLoop];
 }
