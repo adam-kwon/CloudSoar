@@ -134,7 +134,6 @@ static GameplayLayer *sharedInstance;
         
         player = [Player spriteWithSpriteFrameName:@"Fly-Cycle-2.png"];
         player.position = ccp(160, 20);
-        player.rotation = 270;
         [player createPhysicsObject:world];
         [self addChild:player];
 
@@ -224,10 +223,11 @@ static GameplayLayer *sharedInstance;
         [parallaxLayer setZoom:_newScale];
     }
     else if (player.rocketState != kPowerUpStateInEffect && self.scale < 1.0) {
-        self.scale *= (1.0 + (0.2)*dt);
-        if (self.scale > 1.0) {
-            self.scale = 1.0;
+        float newScale = self.scale * (1.0 + (0.2)*dt);
+        if (newScale > 1.0) {
+            newScale = 1.0;
         }
+        self.scale = newScale;
         
         [parallaxLayer setZoom:self.scale];
     }

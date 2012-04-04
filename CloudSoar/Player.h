@@ -24,6 +24,12 @@ typedef enum {
     kPowerUpStateDone
 } PowerUpState;
 
+typedef enum {
+    kAnimationNone,
+    kAnimationSlide,
+    kAnimationFlying
+} AnimationState;
+
 @interface Player : SpriteObject {
     PlayerState state;
     PowerUpState powerUpState;
@@ -32,6 +38,8 @@ typedef enum {
     
     PowerUpState rocketState;
     BOOL rocketStateCooldownScheduled; 
+
+    AnimationState animationState;
     
     ALuint windFx;
 }

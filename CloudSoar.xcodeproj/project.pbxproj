@@ -179,6 +179,8 @@
 		39BF16F4151A999900F2E0E5 /* GPUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BF16F3151A999900F2E0E5 /* GPUtil.m */; };
 		39BF16F9151AC3EA00F2E0E5 /* MainGameScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = 39BF16F8151AC3EA00F2E0E5 /* MainGameScene.mm */; };
 		39BF16FC151AC41300F2E0E5 /* StaticBackgroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BF16FB151AC41200F2E0E5 /* StaticBackgroundLayer.m */; };
+		39CD585C152D045F00C0045D /* earth.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CD585A152D045F00C0045D /* earth.png */; };
+		39CD585D152D045F00C0045D /* moon.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CD585B152D045F00C0045D /* moon.png */; };
 		39EC0DB31529486F004D916A /* ParallaxBackgroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EC0DB21529486F004D916A /* ParallaxBackgroundLayer.m */; };
 /* End PBXBuildFile section */
 
@@ -530,6 +532,8 @@
 		39BF16F8151AC3EA00F2E0E5 /* MainGameScene.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MainGameScene.mm; sourceTree = "<group>"; };
 		39BF16FA151AC41200F2E0E5 /* StaticBackgroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticBackgroundLayer.h; sourceTree = "<group>"; };
 		39BF16FB151AC41200F2E0E5 /* StaticBackgroundLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StaticBackgroundLayer.m; sourceTree = "<group>"; };
+		39CD585A152D045F00C0045D /* earth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = earth.png; sourceTree = "<group>"; };
+		39CD585B152D045F00C0045D /* moon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moon.png; sourceTree = "<group>"; };
 		39EC0DB11529486F004D916A /* ParallaxBackgroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParallaxBackgroundLayer.h; sourceTree = "<group>"; };
 		39EC0DB21529486F004D916A /* ParallaxBackgroundLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParallaxBackgroundLayer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -648,6 +652,8 @@
 		39486B1F1516E2260076D9CF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				39CD585A152D045F00C0045D /* earth.png */,
+				39CD585B152D045F00C0045D /* moon.png */,
 				39720890152C03AD008B7E51 /* wind.caf */,
 				3972088E152BF7C7008B7E51 /* rocket.plist */,
 				39720887152BE4A4008B7E51 /* APMenuCue03.mp3 */,
@@ -1201,6 +1207,8 @@
 				39720888152BE4A4008B7E51 /* APMenuCue03.mp3 in Resources */,
 				3972088F152BF7C7008B7E51 /* rocket.plist in Resources */,
 				39720891152C03AD008B7E51 /* wind.caf in Resources */,
+				39CD585C152D045F00C0045D /* earth.png in Resources */,
+				39CD585D152D045F00C0045D /* moon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -60,7 +60,7 @@ static ParallaxBackgroundLayer *instanceOfLayer;
     [self addChild:backParallax z:0];
     [self addChild:frontParallax z:2];
 
-    CCSprite *earth = [CCSprite spriteWithSpriteFrameName:@"earth.png"];
+    CCSprite *earth = [CCSprite spriteWithFile:@"earth.png"];
     earth.scale = 2.0f;
     earth.anchorPoint = CGPointZero;
     earth.position = ccp(-[earth boundingBox].size.width/2, originalScreenSize.height);

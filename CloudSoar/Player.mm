@@ -30,17 +30,17 @@ static BOOL animationLoaded;
         screenSize = [[CCDirector sharedDirector] winSize];
         
         rocketParticle = [ARCH_OPTIMAL_PARTICLE_SYSTEM particleWithFile:@"rocket.plist"];
-        rocketParticle.rotation = -270;
-        rocketParticle.position = ccp(rocketParticle.position.x, rocketParticle.position.y+26);
+        rocketParticle.position = ccp(rocketParticle.position.x+15, rocketParticle.position.y);
         [self addChild:rocketParticle z:-1];
         [rocketParticle stopSystem];
         rocketParticle.visible = NO;
         
         [self setupAnimations];
         
-        id flyAnim = [CCAnimate actionWithAnimation:[[CCAnimationCache sharedAnimationCache] animationByName:@"flyingAnimation"] restoreOriginalFrame:NO];
-        id repeat = [CCRepeatForever actionWithAction:flyAnim];
-        [self runAction:repeat];
+        id slideAnim = [CCAnimate actionWithAnimation:[[CCAnimationCache sharedAnimationCache] animationByName:@"slideAnimation"] restoreOriginalFrame:NO];
+        id repeat = [CCRepeatForever actionWithAction:slideAnim];
+        [self runAction:repeat];        
+        animationState = kAnimationSlide;
     }
     return self;
 }
@@ -59,7 +59,7 @@ static BOOL animationLoaded;
 	
 	// Define another box shape for our dynamic body.
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(([self boundingBox].size.width-35)/2/PTM_RATIO,[self boundingBox].size.height/2/PTM_RATIO);//These are mid points for our 1m box
+	dynamicBox.SetAsBox(([self boundingBox].size.width)/2/PTM_RATIO,[self boundingBox].size.height/2/PTM_RATIO);//These are mid points for our 1m box
 	
 	// Define the dynamic body fixture.
 	b2FixtureDef fixtureDef;
@@ -76,6 +76,7 @@ static BOOL animationLoaded;
         return;
     }
     
+    // Fly animation
     CCSpriteFrame *frame;
     NSMutableArray *flyFrames = [NSMutableArray array];
     for (int i = 1; i <= 3; i++) {
@@ -87,11 +88,32 @@ static BOOL animationLoaded;
     CCAnimation *animFlying = [CCAnimation animationWithFrames:flyFrames delay:0.075];
     [[CCAnimationCache sharedAnimationCache] removeAnimationByName:@"flyingAnimation"];
     [[CCAnimationCache sharedAnimationCache] addAnimation:animFlying name:@"flyingAnimation"];            
+    
+    // Slide animation
+    NSMutableArray *slideFrames = [NSMutableArray array];
+    for (int i = 1; i <= 1; i++) {
+        NSString *file = [NSString stringWithFormat:@"Slide-Cycle-%d.png", i];
+        frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
+        [slideFrames addObject:frame];
+    }	
+    
+    CCAnimation *animSlide = [CCAnimation animationWithFrames:slideFrames delay:0.1];
+    [[CCAnimationCache sharedAnimationCache] removeAnimationByName:@"slideAnimation"];
+    [[CCAnimationCache sharedAnimationCache] addAnimation:animSlide name:@"slideAnimation"];            
 }
 
 - (void) jump {
     // Do jump if not in rocket state
     if (rocketState != kPowerUpStateInEffect) {
+        
+        if (animationState != kAnimationFlying) {
+            animationState = kAnimationFlying;
+            [self stopAllActions];
+            id flyAnim = [CCAnimate actionWithAnimation:[[CCAnimationCache sharedAnimationCache] animationByName:@"flyingAnimation"] restoreOriginalFrame:NO];
+            id repeat = [CCRepeatForever actionWithAction:flyAnim];
+            [self runAction:repeat];
+        }
+
         self.state = kPlayerStateNone;
 //        [GameplayLayer sharedInstance].leadOutOffSet = screenSize.height/2;
       
