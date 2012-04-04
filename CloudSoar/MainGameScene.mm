@@ -24,6 +24,12 @@
 
 -(id) init {
 	if ((self=[super init])) {
+        CCTexture2D *texture;
+        
+        texture = [[CCTextureCache sharedTextureCache] addImage:@"atlas_default.png"];
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"atlas_default.plist" texture:texture];
+        [texture setAliasTexParameters];
+        
         [self initStaticBackgroundLayer];
         [self initParallaxBackgroundLayer];
         [self initGameplayLayer];

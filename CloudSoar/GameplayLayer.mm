@@ -132,9 +132,9 @@ static GameplayLayer *sharedInstance;
 //                                                     name:ZOOM_OUT_NOTIFICATION object:nil];
 
         
-        player = [Player spriteWithFile:@"blocks.png"];
+        player = [Player spriteWithSpriteFrameName:@"Fly-Cycle-2.png"];
         player.position = ccp(160, 20);
-        player.scale = 0.75;
+        player.rotation = 270;
         [player createPhysicsObject:world];
         [self addChild:player];
 
@@ -297,7 +297,7 @@ static GameplayLayer *sharedInstance;
     int col = arc4random() % 280 + 20;
     for (int i = 0; i < 10; i++) {
         SpriteObject *energy;
-        energy = [Energy spriteWithFile:@"food.png"];
+        energy = [Energy spriteWithSpriteFrameName:@"food.png"];
         energy.position = ccp(col, startY + 50 * i);
         [energy createPhysicsObject:world];
         [self addChild:energy];
@@ -316,7 +316,7 @@ static GameplayLayer *sharedInstance;
         SpriteObject *energy;
         int chance = arc4random() % 100;
         if (chance <= 93) {
-            energy = [Energy spriteWithFile:@"food.png"];
+            energy = [Energy spriteWithSpriteFrameName:@"food.png"];
             energy.position = ccp([GPUtil randomFrom:0 to:screenSize.width/self.scale],  startY + ySpace * i);
             [energy createPhysicsObject:world];
             [self addChild:energy z:-1];
@@ -333,7 +333,7 @@ static GameplayLayer *sharedInstance;
             //                }
             //            }
         } else {
-            energy = [Rocket spriteWithFile:@"food2x.png"];
+            energy = [Rocket spriteWithSpriteFrameName:@"food2x.png"];
             energy.position = ccp([GPUtil randomFrom:0 to:screenSize.width/self.scale],  startY + ySpace * i);
             [energy createPhysicsObject:world];
             [self addChild:energy z:-1];             
@@ -363,7 +363,7 @@ static GameplayLayer *sharedInstance;
         thetaDelta = 1.0;
     }
     for (float theta = 0; theta < M_PI*2; theta += thetaDelta) {
-        SpriteObject *energy = [Energy spriteWithFile:@"food.png"];
+        SpriteObject *energy = [Energy spriteWithSpriteFrameName:@"food.png"];
         float x = startX + cosf(theta)*radius;
         float y = startY + sinf(theta)*radius;
         energy.position = ccp(x, y);
@@ -383,7 +383,7 @@ static GameplayLayer *sharedInstance;
     int doubleHelixChance = arc4random() % 100;
     
     for (float theta = 0; theta < M_PI*2; theta += 0.4) {
-        SpriteObject *energy = [Energy spriteWithFile:@"food.png"];
+        SpriteObject *energy = [Energy spriteWithSpriteFrameName:@"food.png"];
         float x = startX + sinf(theta)*amplitude;
         energy.position = ccp(x, startY);
         [energy createPhysicsObject:world];
@@ -392,7 +392,7 @@ static GameplayLayer *sharedInstance;
         if (doubleHelixChance < 50) {
             SpriteObject *energy2;
             x = startX + sinf(theta + M_PI)*amplitude;
-            energy2 = [Energy spriteWithFile:@"food.png"];
+            energy2 = [Energy spriteWithSpriteFrameName:@"food.png"];
             energy2.position = ccp(x,  startY);
             [energy2 createPhysicsObject:world];
             [self addChild:energy2 z:-1]; 

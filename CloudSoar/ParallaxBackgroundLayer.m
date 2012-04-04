@@ -60,7 +60,7 @@ static ParallaxBackgroundLayer *instanceOfLayer;
     [self addChild:backParallax z:0];
     [self addChild:frontParallax z:2];
 
-    CCSprite *earth = [CCSprite spriteWithFile:@"earth.png"];
+    CCSprite *earth = [CCSprite spriteWithSpriteFrameName:@"earth.png"];
     earth.scale = 2.0f;
     earth.anchorPoint = CGPointZero;
     earth.position = ccp(-[earth boundingBox].size.width/2, originalScreenSize.height);
@@ -72,20 +72,20 @@ static ParallaxBackgroundLayer *instanceOfLayer;
 //    [backParallax addChild:moon];
 
 
-    CCSprite *stars1 = [CCSprite spriteWithFile:@"stars1.png"];
+    CCSprite *stars1 = [CCSprite spriteWithSpriteFrameName:@"stars1.png"];
     stars1.anchorPoint = CGPointZero;
     stars1.position = ccp([GPUtil randomFrom:[stars1 boundingBox].size.width to:originalScreenSize.width/3], 
                           originalScreenSize.height + [stars1 boundingBox].size.height);
     [frontParallax addChild:stars1];
     
-    CCSprite *stars2 = [CCSprite spriteWithFile:@"stars1.png"];
+    CCSprite *stars2 = [CCSprite spriteWithSpriteFrameName:@"stars1.png"];
     stars2.anchorPoint = CGPointZero;
     stars2.flipX = YES;
     stars2.position = ccp([GPUtil randomFrom:stars1.position.x+[stars1 boundingBox].size.width to:originalScreenSize.width-[stars1 boundingBox].size.width], 
                           stars1.position.y + arc4random()%50);
     [frontParallax addChild:stars2];
 
-    CCSprite *stars3 = [CCSprite spriteWithFile:@"stars1.png"];
+    CCSprite *stars3 = [CCSprite spriteWithSpriteFrameName:@"stars1.png"];
     stars3.anchorPoint = CGPointZero;
     stars3.flipY = YES;
     stars3.position = ccp([GPUtil randomFrom:[stars3 boundingBox].size.width to:originalScreenSize.width-[stars3 boundingBox].size.width],
@@ -93,7 +93,7 @@ static ParallaxBackgroundLayer *instanceOfLayer;
     [frontParallax addChild:stars3];
 
 
-    CCSprite *galaxy = [CCSprite spriteWithFile:@"galaxy.png"];
+    CCSprite *galaxy = [CCSprite spriteWithSpriteFrameName:@"galaxy.png"];
     galaxy.position = ccp([GPUtil randomFrom:0 to:originalScreenSize.width-[galaxy boundingBox].size.width], 
                           stars3.position.y + [GPUtil randomFrom:originalScreenSize.height to:originalScreenSize.height*2]);
     [frontParallax addChild:galaxy];

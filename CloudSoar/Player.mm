@@ -10,10 +10,16 @@
 #import "GameplayLayer.h"
 //#import "AudioEngine.h"
 
+@interface Player(Private)
+- (void) setupAnimations;
+@end
+
 @implementation Player
 @synthesize state;
 @synthesize powerUpState;
 @synthesize rocketState;
+
+static BOOL animationLoaded;
 
 - (id) init {
     self = [super init];
@@ -23,6 +29,11 @@
         powerUpState = kPowerUpStateNone;
         rocketState = kPowerUpStateNone;
         screenSize = [[CCDirector sharedDirector] winSize];
+        [self setupAnimations];
+        
+        id flyAnim = [CCAnimate actionWithAnimation:[[CCAnimationCache sharedAnimationCache] animationByName:@"flyingAnimation"] restoreOriginalFrame:NO];
+        id repeat = [CCRepeatForever actionWithAction:flyAnim];
+        [self runAction:repeat];
     }
     return self;
 }
@@ -41,7 +52,7 @@
 	
 	// Define another box shape for our dynamic body.
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox([self boundingBox].size.width/2/PTM_RATIO,[self boundingBox].size.height/2/PTM_RATIO);//These are mid points for our 1m box
+	dynamicBox.SetAsBox(([self boundingBox].size.width-35)/2/PTM_RATIO,[self boundingBox].size.height/2/PTM_RATIO);//These are mid points for our 1m box
 	
 	// Define the dynamic body fixture.
 	b2FixtureDef fixtureDef;
@@ -50,6 +61,25 @@
 	fixtureDef.friction = 0.3f;
 	fixture = body->CreateFixture(&fixtureDef);    
     
+}
+
+- (void) setupAnimations {
+    if (animationLoaded) {
+        animationLoaded = YES;
+        return;
+    }
+    
+    CCSpriteFrame *frame;
+    NSMutableArray *flyFrames = [NSMutableArray array];
+    for (int i = 1; i <= 3; i++) {
+        NSString *file = [NSString stringWithFormat:@"Fly-Cycle-%d.png", i];
+        frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
+        [flyFrames addObject:frame];
+    }	
+    
+    CCAnimation *animFlying = [CCAnimation animationWithFrames:flyFrames delay:0.075];
+    [[CCAnimationCache sharedAnimationCache] removeAnimationByName:@"flyingAnimation"];
+    [[CCAnimationCache sharedAnimationCache] addAnimation:animFlying name:@"flyingAnimation"];            
 }
 
 - (void) jump {
@@ -195,8 +225,8 @@
         }
     } else if (yVelocity > 20 && rocketState == kPowerUpStateInEffect) {
         [GameplayLayer sharedInstance].leadOut = [GameplayLayer sharedInstance].leadOut + 5;
-        if ([GameplayLayer sharedInstance].leadOut >= screenSize.height/gameScale - [self boundingBox].size.height*5) {
-            [GameplayLayer sharedInstance].leadOut = screenSize.height/gameScale - [self boundingBox].size.height*5;
+        if ([GameplayLayer sharedInstance].leadOut >= screenSize.height/gameScale - [self boundingBox].size.height*3) {
+            [GameplayLayer sharedInstance].leadOut = screenSize.height/gameScale - [self boundingBox].size.height*3;
         }
     } else if (yVelocity > 10 && rocketState != kPowerUpStateInEffect) {
         [GameplayLayer sharedInstance].leadOut = [GameplayLayer sharedInstance].leadOut + 3;
@@ -207,7 +237,7 @@
     
 
     self.position = ccp(body->GetPosition().x * PTM_RATIO, body->GetPosition().y * PTM_RATIO);
-    self.rotation = -1 * CC_RADIANS_TO_DEGREES(body->GetAngle());
+    //self.rotation = -1 * CC_RADIANS_TO_DEGREES(body->GetAngle());
 }
 
 @end
