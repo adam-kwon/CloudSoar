@@ -40,7 +40,8 @@
     float                           accelX;
     Player                          *player;
 
-    CCSprite                        *buildings[2];
+    CCSprite                        *bottomBuilding;
+    CCSprite                        *topBuilding;
     NSUInteger                      buildingCount;
     
     float                           lastEnergyHeight;
