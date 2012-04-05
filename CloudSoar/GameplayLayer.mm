@@ -86,6 +86,7 @@ static GameplayLayer *sharedInstance;
         
         lastEnergyHeight = 0.f;
         
+        buildingCount = 1;
         sharedInstance = self;
                 
 		[PhysicsWorld createInstance];
@@ -139,6 +140,15 @@ static GameplayLayer *sharedInstance;
 
         [self generateEnergy];
         
+        buildings[0] = [CCSprite spriteWithFile:@"Flythrough.png"];
+        buildings[0].anchorPoint = CGPointZero;
+        buildings[0].position = ccp(0, 0);
+        [self addChild:buildings[0] z:-2];
+        
+        buildings[1] = [CCSprite spriteWithFile:@"Flythrough.png"];
+        buildings[1].anchorPoint = CGPointZero;
+        buildings[1].position = ccp(0, [buildings[0] boundingBox].size.height);
+        [self addChild:buildings[1] z:-2];
 		//CCSpriteBatchNode *batch = [CCSpriteBatchNode batchNodeWithFile:@"blocks.png" capacity:150];
 		//[self addChild:batch z:0 tag:kTagBatchNode];
     
@@ -188,7 +198,7 @@ static GameplayLayer *sharedInstance;
 	//http://gafferongames.com/game-physics/fix-your-timestep/	
 
     [physicsWorld step:dt];
-
+    /*
     // Only zoom out when power up is in effect
     if (player.rocketState == kPowerUpStateInEffect) {        
         float velocity = [player body]->GetLinearVelocity().y / (20);
@@ -231,6 +241,7 @@ static GameplayLayer *sharedInstance;
         
         [parallaxLayer setZoom:self.scale];
     }
+    */
 
 
     [player updateObject:dt withAccelX:accelX gameScale:self.scale];
@@ -271,7 +282,16 @@ static GameplayLayer *sharedInstance;
         self.position = ccp(self.position.x, 0);        
     }
 
-    
+
+    if (self.position.y < -screenSize.height*buildingCount) {
+        if (buildingCount % 2 == 1) {
+            buildings[0].position = ccp(0, buildings[1].position.y + [buildings[1] boundingBox].size.height);
+        } else {
+            buildings[1].position = ccp(0, buildings[0].position.y + [buildings[0] boundingBox].size.height);            
+        }
+
+        buildingCount++;
+    }
     
     // Clean up. Do physics first then cocos objects    
     CCNode<GameObject, PhysicsObject> *node;

@@ -181,6 +181,7 @@
 		39BF16FC151AC41300F2E0E5 /* StaticBackgroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BF16FB151AC41200F2E0E5 /* StaticBackgroundLayer.m */; };
 		39CD585C152D045F00C0045D /* earth.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CD585A152D045F00C0045D /* earth.png */; };
 		39CD585D152D045F00C0045D /* moon.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CD585B152D045F00C0045D /* moon.png */; };
+		39CD5860152D3A2100C0045D /* Flythrough.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CD585F152D3A2100C0045D /* Flythrough.png */; };
 		39EC0DB31529486F004D916A /* ParallaxBackgroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EC0DB21529486F004D916A /* ParallaxBackgroundLayer.m */; };
 /* End PBXBuildFile section */
 
@@ -534,6 +535,7 @@
 		39BF16FB151AC41200F2E0E5 /* StaticBackgroundLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StaticBackgroundLayer.m; sourceTree = "<group>"; };
 		39CD585A152D045F00C0045D /* earth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = earth.png; sourceTree = "<group>"; };
 		39CD585B152D045F00C0045D /* moon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moon.png; sourceTree = "<group>"; };
+		39CD585F152D3A2100C0045D /* Flythrough.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Flythrough.png; sourceTree = "<group>"; };
 		39EC0DB11529486F004D916A /* ParallaxBackgroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParallaxBackgroundLayer.h; sourceTree = "<group>"; };
 		39EC0DB21529486F004D916A /* ParallaxBackgroundLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParallaxBackgroundLayer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -652,6 +654,7 @@
 		39486B1F1516E2260076D9CF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				39CD585F152D3A2100C0045D /* Flythrough.png */,
 				39CD585A152D045F00C0045D /* earth.png */,
 				39CD585B152D045F00C0045D /* moon.png */,
 				39720890152C03AD008B7E51 /* wind.caf */,
@@ -1209,6 +1212,7 @@
 				39720891152C03AD008B7E51 /* wind.caf in Resources */,
 				39CD585C152D045F00C0045D /* earth.png in Resources */,
 				39CD585D152D045F00C0045D /* moon.png in Resources */,
+				39CD5860152D3A2100C0045D /* Flythrough.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

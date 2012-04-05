@@ -47,13 +47,37 @@ static ParallaxBackgroundLayer *instanceOfLayer;
         
         originalScreenSize  = [[CCDirector sharedDirector] winSize];
         
-        [self initLayer];
+        //[self initLayer];
+        //[self initBuildingLevelLayer];
     }
     
     return self;
 }
 
-- (void) initLayer {
+- (void) initBuildingLevelLayer {
+    // Container to hold the parallax sprites. Used for zooming purposes.
+    backParallax = [CCNode node];
+    frontParallax = [CCNode node];
+    [self addChild:backParallax z:0];
+    [self addChild:frontParallax z:2];
+    
+    CCSprite *building = [CCSprite spriteWithFile:@"Flythrough.png"];
+    building.anchorPoint = CGPointZero;
+    building.position = ccp(0, 0);
+    [backParallax addChild:building];
+
+    building = [CCSprite spriteWithFile:@"Flythrough.png"];
+    building.anchorPoint = CGPointZero;
+    building.position = ccp(0, [building boundingBox].size.height);
+    [backParallax addChild:building];
+    
+        
+    [self initParallaxLayers];
+    
+    [self schedule:@selector(updateBuildingLevelLayer:) interval:1.f/60.f];
+}
+
+- (void) initEarthLevelLayer {
     // Container to hold the parallax sprites. Used for zooming purposes.
     backParallax = [CCNode node];
     frontParallax = [CCNode node];
@@ -115,6 +139,25 @@ static ParallaxBackgroundLayer *instanceOfLayer;
 //    CCLOG(@"parallax speed = %f", parallaxSpeed);
 }
 
+
+- (void) updateBuildingLevelLayer:(ccTime)dt {
+    if (pauseScroll) {
+        return;
+    }
+    
+    CCSprite *sprite;
+    
+    CCARRAY_FOREACH([backParallax children], sprite) {
+        CGPoint pos = sprite.position;
+        
+        pos.y -= parallaxSpeed;
+        if (pos.y <= scaledScreenHeight - [sprite boundingBox].size.height) {
+            pos.y = scaledScreenHeight - [sprite boundingBox].size.height;
+        }
+        
+        sprite.position = pos;
+    }    
+}
 
 - (void) update:(ccTime)delta {
     if (pauseScroll) {

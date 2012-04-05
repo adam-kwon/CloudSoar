@@ -42,7 +42,8 @@
 - (void) setZoom:(float)zoom;
 - (void) initParallaxLayers;
 - (void) cleanupLayer;
-- (void) initLayer;
+- (void) initEarthLevelLayer;
+- (void) initBuildingLevelLayer;
 - (void) setParallaxSpeed:(float)newSpeed;
 
 @property (nonatomic, readwrite, assign) BOOL pauseScroll;
