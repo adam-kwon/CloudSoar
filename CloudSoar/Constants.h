@@ -34,7 +34,8 @@ typedef enum {
 	kGameObjectNone,                            // 0
     kGameObjectPlayer,
     kGameObjectEnergy,
-    kGameObjectRocket
+    kGameObjectRocket,
+    kGameObjectFlyThroughBuilding
 } GameObjectType;
 
 typedef enum {

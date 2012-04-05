@@ -182,6 +182,8 @@
 		39CD585C152D045F00C0045D /* earth.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CD585A152D045F00C0045D /* earth.png */; };
 		39CD585D152D045F00C0045D /* moon.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CD585B152D045F00C0045D /* moon.png */; };
 		39CD5860152D3A2100C0045D /* Flythrough.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CD585F152D3A2100C0045D /* Flythrough.png */; };
+		39CD5862152E2BCD00C0045D /* TitleMenuBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CD5861152E2BCD00C0045D /* TitleMenuBG.png */; };
+		39CD5865152E2FA700C0045D /* FlyThroughBuilding.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CD5864152E2FA700C0045D /* FlyThroughBuilding.m */; };
 		39EC0DB31529486F004D916A /* ParallaxBackgroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EC0DB21529486F004D916A /* ParallaxBackgroundLayer.m */; };
 /* End PBXBuildFile section */
 
@@ -536,6 +538,9 @@
 		39CD585A152D045F00C0045D /* earth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = earth.png; sourceTree = "<group>"; };
 		39CD585B152D045F00C0045D /* moon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moon.png; sourceTree = "<group>"; };
 		39CD585F152D3A2100C0045D /* Flythrough.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Flythrough.png; sourceTree = "<group>"; };
+		39CD5861152E2BCD00C0045D /* TitleMenuBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TitleMenuBG.png; sourceTree = "<group>"; };
+		39CD5863152E2FA700C0045D /* FlyThroughBuilding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlyThroughBuilding.h; sourceTree = "<group>"; };
+		39CD5864152E2FA700C0045D /* FlyThroughBuilding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlyThroughBuilding.m; sourceTree = "<group>"; };
 		39EC0DB11529486F004D916A /* ParallaxBackgroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParallaxBackgroundLayer.h; sourceTree = "<group>"; };
 		39EC0DB21529486F004D916A /* ParallaxBackgroundLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParallaxBackgroundLayer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -584,6 +589,8 @@
 				3940D9B415178BEE00B13AAF /* Energy.mm */,
 				3940D9CC1517A95800B13AAF /* Rocket.h */,
 				3940D9CD1517A95800B13AAF /* Rocket.mm */,
+				39CD5863152E2FA700C0045D /* FlyThroughBuilding.h */,
+				39CD5864152E2FA700C0045D /* FlyThroughBuilding.m */,
 			);
 			name = "Game Objects";
 			sourceTree = "<group>";
@@ -655,6 +662,7 @@
 			isa = PBXGroup;
 			children = (
 				39CD585F152D3A2100C0045D /* Flythrough.png */,
+				39CD5861152E2BCD00C0045D /* TitleMenuBG.png */,
 				39CD585A152D045F00C0045D /* earth.png */,
 				39CD585B152D045F00C0045D /* moon.png */,
 				39720890152C03AD008B7E51 /* wind.caf */,
@@ -1213,6 +1221,7 @@
 				39CD585C152D045F00C0045D /* earth.png in Resources */,
 				39CD585D152D045F00C0045D /* moon.png in Resources */,
 				39CD5860152D3A2100C0045D /* Flythrough.png in Resources */,
+				39CD5862152E2BCD00C0045D /* TitleMenuBG.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1370,6 +1379,7 @@
 				3972087B152BE0EC008B7E51 /* AudioEngine.m in Sources */,
 				3972087F152BE124008B7E51 /* UserData.m in Sources */,
 				39720882152BE13A008B7E51 /* DeviceDetection.m in Sources */,
+				39CD5865152E2FA700C0045D /* FlyThroughBuilding.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

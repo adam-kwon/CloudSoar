@@ -20,6 +20,7 @@
 @class SpriteObject;
 @class MainGameScene;
 @class ParallaxBackgroundLayer;
+@class FlyThroughBuilding;
 
 // HelloWorldLayer
 @interface GameplayLayer : CCLayer
@@ -40,8 +41,7 @@
     float                           accelX;
     Player                          *player;
 
-    CCSprite                        *bottomBuilding;
-    CCSprite                        *topBuilding;
+    FlyThroughBuilding              *flyThroughBuilding;
     NSUInteger                      buildingCount;
     
     float                           lastEnergyHeight;

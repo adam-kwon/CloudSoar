@@ -16,6 +16,7 @@
 #import "GPUtil.h"
 #import "MainGameScene.h"
 #import "ParallaxBackgroundLayer.h"
+#import "FlyThroughBuilding.h"
 
 // enums that will be used as tags
 enum {
@@ -136,22 +137,13 @@ static GameplayLayer *sharedInstance;
         player = [Player spriteWithSpriteFrameName:@"Fly-Cycle-2.png"];
         player.position = ccp(160, 20);
         [player createPhysicsObject:world];
-        [self addChild:player];
+        [self addChild:player z:0];
 
         [self generateEnergy];
         
-        bottomBuilding = [CCSprite spriteWithFile:@"Flythrough.png"];
-        bottomBuilding.anchorPoint = CGPointZero;
-        bottomBuilding.position = ccp(0, 0);
-        [self addChild:bottomBuilding z:-2];
-        
-        topBuilding = [CCSprite spriteWithFile:@"Flythrough.png"];
-        topBuilding.anchorPoint = CGPointZero;
-        topBuilding.position = ccp(0, [bottomBuilding boundingBox].size.height);
-        [self addChild:topBuilding z:-2];
-		//CCSpriteBatchNode *batch = [CCSpriteBatchNode batchNodeWithFile:@"blocks.png" capacity:150];
-		//[self addChild:batch z:0 tag:kTagBatchNode];
-    
+        flyThroughBuilding = [FlyThroughBuilding node];
+        [self addChild:flyThroughBuilding z:-2];
+                
 	}
 	return self;
 }
@@ -245,6 +237,7 @@ static GameplayLayer *sharedInstance;
 
 
     [player updateObject:dt withAccelX:accelX gameScale:self.scale];
+    [flyThroughBuilding updateObject:dt parentYPosition:self.position.y];
     
     if (fabsf(player.position.y - lastEnergyHeight) < screenSize.height) {
         [self generateEnergy];
@@ -282,27 +275,6 @@ static GameplayLayer *sharedInstance;
         self.position = ccp(self.position.x, 0);        
     }
 
-
-    if (self.position.y < -screenSize.height*buildingCount) {
-        bottomBuilding.position = ccp(0, topBuilding.position.y + [topBuilding boundingBox].size.height);
-        
-        // Swap the top and bottom pointers
-        CCSprite *tmp = topBuilding;
-        topBuilding = bottomBuilding;
-        bottomBuilding = tmp;
-
-        buildingCount++;
-    } else if (self.position.y > -screenSize.height*(buildingCount-1)) {
-        CCLOG(@"self.y=%f  bottom.y=%f", self.position.y, bottomBuilding.position.y);
-        topBuilding.position = ccp(0, bottomBuilding.position.y - [bottomBuilding boundingBox].size.height);
-
-        // Swap the top and bottom pointers
-        CCSprite *tmp = topBuilding;
-        topBuilding = bottomBuilding;
-        bottomBuilding = tmp;
-        
-        buildingCount--;
-    }
     
     // Clean up. Do physics first then cocos objects    
     CCNode<GameObject, PhysicsObject> *node;
