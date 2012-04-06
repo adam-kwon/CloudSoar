@@ -8,6 +8,8 @@
 
 #import "GameObject.h"
 
+@class GameplayLayer;
+
 @interface FlyThroughBuilding : CCNode<GameObject> {
     BOOL isSafeToDelete;
     GameObjectType gameObjectType;
@@ -15,11 +17,13 @@
     int buildingCount;
     CCSprite *topBuilding;
     CCSprite *bottomBuilding;
-    CCSprite *buildingWindow;
+    CCSprite *topWindow;
+    CCSprite *bottomWindow;
 }
 
 - (CGRect) boundingBox;
 
+- (id) initWithGameplayLayer:(CCLayer*)gameplayLayer;
 - (void) updateObject:(ccTime)dt parentYPosition:(float)y;
 //@property (nonatomic, readwrite, assign) CCSprite *building;
 //@property (nonatomic, readwrite, assign) CCSprite *buildingWindow;

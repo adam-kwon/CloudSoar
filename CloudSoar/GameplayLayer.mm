@@ -141,7 +141,7 @@ static GameplayLayer *sharedInstance;
 
         [self generateEnergy];
         
-        flyThroughBuilding = [FlyThroughBuilding node];
+        flyThroughBuilding = [[[FlyThroughBuilding alloc] initWithGameplayLayer:self] autorelease];
         [self addChild:flyThroughBuilding z:-2];
                 
 	}
