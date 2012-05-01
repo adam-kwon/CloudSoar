@@ -598,7 +598,6 @@
 		39486AFF1516E2260076D9CF = {
 			isa = PBXGroup;
 			children = (
-				39720883152BE1E4008B7E51 /* MediaPlayer.framework */,
 				39486B1E1516E2260076D9CF /* CloudSoar */,
 				39486B0D1516E2260076D9CF /* Frameworks */,
 				39486B0B1516E2260076D9CF /* Products */,
@@ -616,6 +615,7 @@
 		39486B0D1516E2260076D9CF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				39720883152BE1E4008B7E51 /* MediaPlayer.framework */,
 				39486B0E1516E2260076D9CF /* QuartzCore.framework */,
 				39486B101516E2260076D9CF /* OpenGLES.framework */,
 				39486B121516E2260076D9CF /* OpenAL.framework */,
