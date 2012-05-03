@@ -489,8 +489,8 @@ static GameplayLayer *sharedInstance;
 - (void) dealloc
 {
 	// in case you have something to dealloc, do it in this method
-	delete world;
-	world = NULL;
+	//delete world;
+	//world = NULL;
 	
 	delete m_debugDraw;
 
